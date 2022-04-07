@@ -1,4 +1,4 @@
-package com.seraph.ppschedule;
+package com.seraph.ppschedule.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.bean.Schedule;
 import com.seraph.ppschedule.dao.ScheduleDao;
 

@@ -3,16 +3,13 @@ plugins {
 }
 
 android {
-    compileSdk 31
-
+    compileSdkVersion compile_sdk_version
     defaultConfig {
         applicationId "com.seraph.ppschedule"
-        minSdk 21
-        targetSdk 31
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -20,10 +17,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -37,4 +30,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'org.litepal.guolindev:core:3.2.3'  //引入对LitePal的依赖
+    //引入对calendar库的依赖，用以实现日历相关功能
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':calendar')
 }
