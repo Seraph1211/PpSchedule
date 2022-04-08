@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/menu_item_border.xml" value="0.1525" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_container.xml" value="0.12788632326820604" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_menu.xml" value="0.22826086956521738" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_title_bar.xml" value="0.152" />
       </map>
     </option>
   </component>
