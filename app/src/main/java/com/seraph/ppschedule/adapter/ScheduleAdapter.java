@@ -19,7 +19,7 @@ import com.seraph.ppschedule.bean.Schedule;
 
 import java.util.List;
 
-class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "ScheduleAdapter";
 
@@ -57,14 +57,15 @@ class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         scheduleViewHolder.cbScheduleState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                Log.d(TAG, "onCheckedChanged: isChecked=" + isChecked);
+                if(!isChecked) {
                     schedule.setFinish(false);
-                    scheduleViewHolder.cbScheduleState.setChecked(false);  //取消选中CheckBox
+                    //scheduleViewHolder.cbScheduleState.setChecked(false);  //取消选中CheckBox
                     scheduleViewHolder.tvScheduleTitle
                             .setPaintFlags(scheduleViewHolder.tvScheduleTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));  //取消删除线
                 } else {
                     schedule.setFinish(true);
-                    scheduleViewHolder.cbScheduleState.setChecked(true);  //选中CheckBox
+                    //scheduleViewHolder.cbScheduleState.setChecked(true);  //选中CheckBox
                     scheduleViewHolder.tvScheduleTitle
                             .setPaintFlags(scheduleViewHolder.tvScheduleTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);  //设置删除线
                 }
@@ -138,7 +139,7 @@ class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      * 更新Adapter数据源（mSchedules），保证Schedule的变更及时反馈到ListView中
      * @param schedules
      */
-    private void updateAllScheduleData(List<Schedule> schedules) {
+    public void updateAllScheduleData(List<Schedule> schedules) {
         mSchedules = schedules;
         notifyDataSetChanged();
     }
