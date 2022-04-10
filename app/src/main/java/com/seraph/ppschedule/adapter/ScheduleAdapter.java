@@ -1,8 +1,8 @@
-package com.seraph.ppschedule;
+package com.seraph.ppschedule.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.os.AsyncTask;
+import android.support.annotation.LongDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,8 +14,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jimmy.common.listener.OnTaskFinishedListener;
+import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dialog.ConfirmDialog;
 
 import java.util.List;
 
@@ -84,6 +85,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         });
 
         // TODO: 2022/4/9 注册长按的监听事件：弹出删除任务的对话框
+        scheduleViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(TAG, "onLongClick: ing");
+                showDeleteScheduleDialog(schedule);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -102,6 +111,20 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvScheduleTitle = itemView.findViewById(R.id.tvScheduleTitle);
         }
 
+    }
+
+    private void showDeleteScheduleDialog(final Schedule schedule) {
+        new ConfirmDialog(mContext, R.string.schedule_delete_this_schedule, new ConfirmDialog.OnClickListener() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onConfirm() {
+                removeItem(schedule);
+            }
+        }).show();
     }
 
     // TODO: 2022/4/9 添加&删除item之后还需要更新DB，放到adapter中完成
@@ -143,6 +166,5 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mSchedules = schedules;
         notifyDataSetChanged();
     }
-
 
 }

@@ -3,14 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_circle_gray.xml" value="0.264" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item.xml" value="0.148" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item_normal.xml" value="0.148" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item_press.xml" value="0.148" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/btn_cancel.xml" value="0.148" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/btn_clock.xml" value="0.1535" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/btn_confirm.xml" value="0.148" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/btn_ok.xml" value="0.1535" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/dialog_background.xml" value="0.148" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/ic_launcher_background.xml" value="0.153" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/menu_item_border.xml" value="0.1525" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/schedule_input_edit_text.xml" value="0.1535" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/schedule_input_edit_text_focus.xml" value="0.1535" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/dialog_confirm.xml" value="0.264" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/fragment_schedule.xml" value="0.2808155699721965" />
-        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/item_schedule.xml" value="0.264" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/item_schedule.xml" value="0.4" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_container.xml" value="0.2" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_menu.xml" value="0.22826086956521738" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_title_bar.xml" value="0.152" />

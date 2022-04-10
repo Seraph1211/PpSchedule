@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JeekCalendar</string>
+    <string name="app_name">PpCalendar</string>
     <string name="exit_app_hint">Click to exit.</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>

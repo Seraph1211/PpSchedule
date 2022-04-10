@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,9 +24,13 @@ import com.jeek.calendar.widget.calendar.schedule.ScheduleLayout;
 import com.jeek.calendar.widget.calendar.schedule.ScheduleRecyclerView;
 import com.jimmy.common.util.DeviceUtils;
 import com.seraph.ppschedule.R;
+import com.seraph.ppschedule.adapter.ScheduleAdapter;
 import com.seraph.ppschedule.activity.MainActivity;
+import com.seraph.ppschedule.bean.Schedule;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ScheduleFragment extends Fragment implements View.OnClickListener, OnCalendarClickListener {
 
@@ -34,11 +40,12 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener, 
    private View mView;
 
    private ScheduleLayout slSchedule;  //日历控件
-   //private ScheduleRecyclerView rvScheduleList;
-   private EditText etInputContent;  //底部输入框
+   private ScheduleRecyclerView rvScheduleList;  //List展示控件
+   private ScheduleAdapter mScheduleAdapter;  //List适配器
    private RelativeLayout rLNoTask;  //当天用户无任务时的展示控件
+   private EditText etInputContent;  //底部输入框
 
-   //private ScheduleAdapter mScheduleAdapter;
+   private List<Schedule> scheduleList = new ArrayList<>();
    private int mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay;   //当前被选中的日期数据
    private long mTime;
 
@@ -55,6 +62,8 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener, 
       initView();
       initDate();
       initBottomInputBar();
+      initScheduleList();
+      loadScheduleList();
 
       return mView;
    }
@@ -69,6 +78,42 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener, 
       //为底部输入框两侧按钮注册点击事件监听器
       mView.findViewById(R.id.ibMainClock).setOnClickListener(this);
       mView.findViewById(R.id.ibMainOk).setOnClickListener(this);
+   }
+
+   private void initScheduleList() {
+      rvScheduleList = slSchedule.getSchedulerRecyclerView();
+      LinearLayoutManager manager = new LinearLayoutManager(mActivity);
+      manager.setOrientation(LinearLayoutManager.VERTICAL);
+      rvScheduleList.setLayoutManager(manager);
+      DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
+      itemAnimator.setSupportsChangeAnimations(false);
+      rvScheduleList.setItemAnimator(itemAnimator);
+      mScheduleAdapter = new ScheduleAdapter(mActivity, scheduleList);
+      rvScheduleList.setAdapter(mScheduleAdapter);
+   }
+
+   /**
+    * 从DB中加载Schedule数据
+    */
+   private void loadScheduleList() {
+      Log.d(TAG, "LoadScheduleList: ");
+
+      if(scheduleList.size() > 0) {
+         scheduleList.clear();
+      }
+
+      // TODO: 2022/4/9 从DB中读取选中日期的schedule数据
+      Calendar calendar = Calendar.getInstance();
+      if(mCurrentSelectYear ==  calendar.get(Calendar.YEAR)
+      && mCurrentSelectMonth == calendar.get(Calendar.MONTH)
+      && mCurrentSelectDay == calendar.get(Calendar.DATE)) {
+         for(int i = 0; i < 10; i++) {
+            scheduleList.add(new Schedule("Title" + (i+1), "", null, false));
+         }
+      }
+
+      rLNoTask.setVisibility(scheduleList.size()==0 ? View.VISIBLE : View.GONE);  //设置兜底View的可见性
+      mScheduleAdapter.updateAllScheduleData(scheduleList);  //刷新ListView
    }
 
    /**
@@ -156,6 +201,7 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener, 
    public void onClickDate(int year, int month, int day) {
       Toast.makeText(mActivity, "date: " +year + "/" + month + "/" + day, Toast.LENGTH_SHORT).show();
       setCurrentSelectDate(year, month, day);
+      loadScheduleList();
    }
 
    @Override
