@@ -290,6 +290,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mSchedules.remove(position);
             notifyItemRemoved(position);
             notifyDataSetChanged();
+            mFragment.resetVisibilityOfNoTaskView();
         }
     }
 

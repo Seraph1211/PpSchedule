@@ -107,13 +107,18 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       if(mCurrentSelectYear ==  calendar.get(Calendar.YEAR)
       && mCurrentSelectMonth == calendar.get(Calendar.MONTH)
       && mCurrentSelectDay == calendar.get(Calendar.DATE)) {
-         for(int i = 0; i < 10; i++) {
+         for(int i = 0; i < 5; i++) {
             scheduleList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
          }
       }
 
-      rLNoTask.setVisibility(scheduleList.size()==0 ? View.VISIBLE : View.GONE);  //设置兜底View的可见性
+      resetVisibilityOfNoTaskView(); //设置兜底View的可见性
       mScheduleAdapter.updateAllScheduleData(scheduleList);  //刷新ListView
+   }
+
+   @Override
+   public void resetVisibilityOfNoTaskView() {
+      rLNoTask.setVisibility(scheduleList.size()==0 ? View.VISIBLE : View.GONE);
    }
 
    /**

@@ -23,4 +23,9 @@ public class BaseFragment extends Fragment {
      * @param schedule
      */
     public void changeScheduleSate(Schedule schedule) {}
+
+    /**
+     * 更新无任务时兜底View的可见性
+     */
+    public void resetVisibilityOfNoTaskView() {}
 }
