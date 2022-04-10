@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvTitleMonth"
@@ -59,6 +59,15 @@
                     android:textSize="@dimen/text_size_14sp"/>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMainTitle"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textColor="@color/colorWrite"
+                android:textSize="@dimen/text_size_18sp"/>
 
         </RelativeLayout>
 

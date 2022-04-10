@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ScheduleFragment extends Fragment implements View.OnClickListener, OnCalendarClickListener {
+public class ScheduleFragment extends BaseFragment implements View.OnClickListener, OnCalendarClickListener {
 
    private static final String TAG = "ScheduleFragment";
 
@@ -88,7 +88,7 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener, 
       DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
       itemAnimator.setSupportsChangeAnimations(false);
       rvScheduleList.setItemAnimator(itemAnimator);
-      mScheduleAdapter = new ScheduleAdapter(mActivity, scheduleList);
+      mScheduleAdapter = new ScheduleAdapter(mActivity, this, scheduleList);
       rvScheduleList.setAdapter(mScheduleAdapter);
    }
 
@@ -108,7 +108,7 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener, 
       && mCurrentSelectMonth == calendar.get(Calendar.MONTH)
       && mCurrentSelectDay == calendar.get(Calendar.DATE)) {
          for(int i = 0; i < 10; i++) {
-            scheduleList.add(new Schedule("Title" + (i+1), "", null, false));
+            scheduleList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
          }
       }
 
@@ -207,5 +207,19 @@ public class ScheduleFragment extends Fragment implements View.OnClickListener, 
    @Override
    public void onPageChange(int year, int month, int day) {
 
+   }
+
+   @Override
+   public void insertSchedule(Schedule schedule) {
+      if(mScheduleAdapter != null) {
+         mScheduleAdapter.insertItem(schedule);
+      }
+   }
+
+   @Override
+   public void removeSchedule(Schedule schedule) {
+      if(mScheduleAdapter != null) {
+         mScheduleAdapter.removeItem(schedule);
+      }
    }
 }

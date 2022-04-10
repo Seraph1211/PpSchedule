@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seraph.ppschedule.R;
+import com.seraph.ppschedule.fragment.EventSetFragment;
 import com.seraph.ppschedule.fragment.ScheduleFragment;
 
 import java.util.Calendar;
@@ -35,9 +36,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvTitleMonth, tvTitleDay;
     private String[] mMonthText;
 
+    private TextView tvMainTitle;  //标题栏title
+
     private int mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay;  //用于记录当前被选中日期
 
-    ScheduleFragment mScheduleFragment;
+    private ScheduleFragment mScheduleFragment;
+    private EventSetFragment mEventSetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llTitleDate = findViewById(R.id.llTitleDate);
         tvTitleMonth = findViewById(R.id.tvTitleMonth);
         tvTitleDay = findViewById(R.id.tvTitleDay);
+        tvMainTitle = findViewById(R.id.tvMainTitle);
 
         btnMenu.setOnClickListener(this);
         llMenuEvent.setOnClickListener(this);
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.llMenuEvent:
+                gotoEventSetFragment();
                 Toast.makeText(this, "Event option is clicked !", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -140,12 +146,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mScheduleFragment = ScheduleFragment.getInstance();
             ft.add(R.id.flMainContainer, mScheduleFragment);
         }
-//        if (mEventSetFragment != null)
-//            ft.hide(mEventSetFragment);
+        if (mEventSetFragment != null) {
+            ft.hide(mEventSetFragment);
+        }
         ft.show(mScheduleFragment);
         ft.commit();
         llTitleDate.setVisibility(View.VISIBLE);
-        //tvTitle.setVisibility(View.GONE);
+        tvMainTitle.setVisibility(View.GONE);
+        mDrawer.closeDrawer(Gravity.START);
+    }
+
+    /**
+     * 视图切换为EventSetFragment
+     */
+    private void gotoEventSetFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+        if(mEventSetFragment == null) {
+            mEventSetFragment = EventSetFragment.getInstance();
+            ft.add(R.id.flMainContainer, mEventSetFragment);
+        }
+        if(mScheduleFragment != null) {
+            ft.hide(mScheduleFragment);
+        }
+        ft.show(mEventSetFragment);
+        ft.commit();
+        llTitleDate.setVisibility(View.GONE);
+        tvMainTitle.setVisibility(View.VISIBLE);
         mDrawer.closeDrawer(Gravity.START);
     }
 
