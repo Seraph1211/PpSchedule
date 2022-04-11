@@ -28,4 +28,11 @@ public class BaseFragment extends Fragment {
      * 更新无任务时兜底View的可见性
      */
     public void resetVisibilityOfNoTaskView() {}
+
+    /**
+     *按以下两步更新schedule数据
+     * 1、从DB中读取schedule数据
+     * 2、调用adapter的notify方法刷新视图
+     */
+    public void resetScheduleList(){}
 }

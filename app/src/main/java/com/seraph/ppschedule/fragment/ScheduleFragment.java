@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
@@ -62,8 +61,8 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       initView();
       initDate();
       initBottomInputBar();
+      loadScheduleListFromDB();
       initScheduleList();
-      loadScheduleList();
 
       return mView;
    }
@@ -92,10 +91,18 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       rvScheduleList.setAdapter(mScheduleAdapter);
    }
 
+
+
    /**
     * 从DB中加载Schedule数据
+    *
+    * 加载list数据的时机：
+    * 1、每次ScheduleFragment加载时，获取当日的list数据
+    * 2、在ScheduleFragment中切换日期时，加载该日期的list数据
+    * 3、每次EventSetFragment加载时，获取全部list数据
+    * 4、从ScheduleDetailActivity返回时，更新list数据
     */
-   private void loadScheduleList() {
+   private void loadScheduleListFromDB() {
       Log.d(TAG, "LoadScheduleList: ");
 
       if(scheduleList.size() > 0) {
@@ -110,10 +117,17 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
          for(int i = 0; i < 5; i++) {
             scheduleList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
          }
+
+         scheduleList.get(3).setFinish(true );
       }
 
       resetVisibilityOfNoTaskView(); //设置兜底View的可见性
-      mScheduleAdapter.updateAllScheduleData(scheduleList);  //刷新ListView
+   }
+
+   @Override
+   public void resetScheduleList() {
+      loadScheduleListFromDB();
+      mScheduleAdapter.updateAllScheduleData(scheduleList);
    }
 
    @Override
@@ -206,7 +220,8 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
    public void onClickDate(int year, int month, int day) {
       Toast.makeText(mActivity, "date: " +year + "/" + month + "/" + day, Toast.LENGTH_SHORT).show();
       setCurrentSelectDate(year, month, day);
-      loadScheduleList();
+      //loadScheduleListFromDB();
+      resetScheduleList();
    }
 
    @Override

@@ -22,6 +22,7 @@ import com.seraph.ppschedule.fragment.BaseFragment;
 import com.seraph.ppschedule.fragment.EventSetFragment;
 import com.seraph.ppschedule.utils.DateUtils;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -38,6 +39,20 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.mContext = mContext;
         this.mFragment = mFragment;
         this.mSchedules = mSchedules;
+
+        initCheckState();
+    }
+
+    /**
+     * 根据mScheduleList初始化标记数组
+     */
+    private void initCheckState() {
+        Iterator<Schedule> iterator = mSchedules.iterator();
+        Schedule schedule;
+        while(iterator.hasNext()) {
+            schedule = iterator.next();
+            mCheckState.put(mSchedules.indexOf(schedule), schedule.isFinish());
+        }
     }
 
     @NonNull
@@ -94,7 +109,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Log.d(TAG, "onCheckedChanged: isChecked=" + isChecked);
                     int position = (int) buttonView.getTag();
                     if(!isChecked) {
-                        mCheckState.delete(position);
+                        mCheckState.put(position, false);
                         schedule.setFinish(false);
                         //取消删除线
                         scheduleViewHolder.tvScheduleTitle
@@ -176,11 +191,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Log.d(TAG, "onCheckedChanged: isChecked=" + isChecked);
 
                     int position = (int) buttonView.getTag();
-                    if(!isChecked) {
-                        mCheckState.delete(position);
-                    } else {
-                        mCheckState.put(position, true);
-                    }
+                    mCheckState.put(position, isChecked);
 
                     schedule.setFinish(isChecked);
                     mFragment.changeScheduleSate(schedule);  //刷新两个List(done & undo)的UI状态
@@ -212,7 +223,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return mSchedules.size();
+        return mSchedules == null ? 0 : mSchedules.size();
     }
 
     /**
@@ -277,6 +288,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void insertItem(Schedule schedule) {
         mSchedules.add(schedule);
         notifyItemInserted(mSchedules.size() - 1);
+        notifyDataSetChanged();
     }
 
     /**

@@ -56,8 +56,8 @@ public class EventSetFragment extends BaseFragment {
         mView = inflater.inflate(R.layout.fragment_eventset, container, false);
 
         initView();
-        initRecyclerView();
         loadScheduleList();
+        initRecyclerView();
 
         return mView;
     }
@@ -79,6 +79,7 @@ public class EventSetFragment extends BaseFragment {
 
         LinearLayoutManager managerUndo = new LinearLayoutManager(mActivity);
         managerUndo.setOrientation(LinearLayoutManager.VERTICAL);
+        managerUndo.setItemPrefetchEnabled(false);
         adapterUndo = new ScheduleAdapter(mActivity, this, undoList);
         rvUndo.setLayoutManager(managerUndo);
         rvUndo.setItemAnimator(itemAnimator);
@@ -86,6 +87,7 @@ public class EventSetFragment extends BaseFragment {
 
         LinearLayoutManager managerDone = new LinearLayoutManager(mActivity);
         managerDone.setOrientation(LinearLayoutManager.VERTICAL);
+        managerDone.setItemPrefetchEnabled(false);
         adapterDone = new ScheduleAdapter(mActivity, this, doneList);
         rvDone.setLayoutManager(managerDone);
         rvDone.setItemAnimator(itemAnimator);
@@ -135,11 +137,11 @@ public class EventSetFragment extends BaseFragment {
     public void changeScheduleSate(Schedule schedule) {
 
         if(schedule.isFinish()) {  //如果已完成，则将schedule从undoList中移除并添加到doneList中
-            adapterUndo.removeItem(schedule);
+            //adapterUndo.removeItem(schedule);
             adapterDone.insertItem(schedule);
         } else {
             adapterDone.removeItem(schedule);
-            adapterUndo.insertItem(schedule);
+            //adapterUndo.insertItem(schedule);
         }
 
     }
