@@ -25,7 +25,7 @@ import com.seraph.ppschedule.utils.DateUtils;
 import java.util.Iterator;
 import java.util.List;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "ScheduleAdapter";
 
@@ -37,7 +37,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private RecyclerView mRv;
 
-    public ScheduleAdapter(Context mContext, BaseFragment mFragment, List<Schedule> mSchedules, RecyclerView mRv) {
+    public EventSetAdapter(Context mContext, BaseFragment mFragment, List<Schedule> mSchedules, RecyclerView mRv) {
         this.mContext = mContext;
         this.mFragment = mFragment;
         this.mSchedules = mSchedules;
@@ -61,78 +61,62 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ScheduleViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.item_schedule, viewGroup, false));
+        return new EventViewHolder(LayoutInflater.from(mContext)
+                .inflate(R.layout.item_event, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         final Schedule schedule = mSchedules.get(i);
-        final ScheduleViewHolder scheduleViewHolder = (ScheduleViewHolder) viewHolder;
+
+        final EventViewHolder eventViewHolder = (EventViewHolder) viewHolder;
 
         //根据Schedule数据设置控件状态
-        scheduleViewHolder.cbScheduleState.setTag(i);
-        scheduleViewHolder.tvScheduleTitle.setText(schedule.getTitle());
+        eventViewHolder.cbEventState.setTag(i);
+        eventViewHolder.tvEventTitle.setText(schedule.getTitle());
 
         if(mCheckState.get(i, false)) { //如果任务状态为已完成
-            scheduleViewHolder.cbScheduleState.setChecked(true);
+            eventViewHolder.cbEventState.setChecked(true);
             //为标题设置删除线
-            scheduleViewHolder.tvScheduleTitle
-                    .setPaintFlags(scheduleViewHolder.tvScheduleTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            eventViewHolder.tvEventTitle
+                    .setPaintFlags(eventViewHolder.tvEventTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             //变更字体颜色
-            scheduleViewHolder.tvScheduleTitle
+            eventViewHolder.tvEventTitle
                     .setTextColor(mContext.getResources().getColor(R.color.color_schedule_finish_title_text));
         } else {
-            scheduleViewHolder.cbScheduleState.setChecked(false);
+            eventViewHolder.cbEventState.setChecked(false);
             //取消删除线
-            scheduleViewHolder.tvScheduleTitle
-                    .setPaintFlags(scheduleViewHolder.tvScheduleTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            eventViewHolder.tvEventTitle
+                    .setPaintFlags(eventViewHolder.tvEventTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             //变更字体颜色
-            scheduleViewHolder.tvScheduleTitle
+            eventViewHolder.tvEventTitle
                     .setTextColor(mContext.getResources().getColor(R.color.color_schedule_title_text));
         }
 
-        // TODO: 2022/4/10 没有兼容用户只设置了日期，没有设置具体时间的情况
+
         if(schedule.getDate() != null) {
-            scheduleViewHolder.tvScheduleTime.setText(DateUtils.date2Time(schedule.getDate().getTime()));
+            eventViewHolder.tvEventTime.setText(DateUtils.date2DateString(schedule.getDate().getTime()));
         } else {
-            scheduleViewHolder.tvScheduleTime.setText("");
+            eventViewHolder.tvEventTime.setText("");
         }
 
         // TODO: 2022/4/9 CheckBox的选中状态改变后，还需要随之同步Schedule的完成状态到DB中
         //为CheckBox注册监听事件
-        scheduleViewHolder.cbScheduleState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        eventViewHolder.cbEventState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d(TAG, "onCheckedChanged: isChecked=" + isChecked);
+
                 int position = (int) buttonView.getTag();
-                if(!isChecked) {
-                    mCheckState.put(position, false);
-                    schedule.setFinish(false);
-                    //取消删除线
-                    scheduleViewHolder.tvScheduleTitle
-                            .setPaintFlags(scheduleViewHolder.tvScheduleTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                    //变更字体颜色
-                    scheduleViewHolder.tvScheduleTitle
-                            .setTextColor(mContext.getResources().getColor(R.color.color_schedule_title_text));
+                mCheckState.put(position, isChecked);
 
-                } else {
-                    mCheckState.put(position, true);
-                    schedule.setFinish(true);
-                    //设置删除线
-                    scheduleViewHolder.tvScheduleTitle
-                            .setPaintFlags(scheduleViewHolder.tvScheduleTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    //变更字体颜色
-                    scheduleViewHolder.tvScheduleTitle
-                            .setTextColor(mContext.getResources().getColor(R.color.color_schedule_finish_title_text));
-                }
-
-                changeScheduleItem(schedule);  //更新schedule item的UI状态
+                schedule.setFinish(isChecked);
+                mFragment.changeScheduleSate(schedule);  //刷新两个List(done & undo)的UI状态
             }
         });
 
         //为整个任务条设置点击事件，跳转至ScheduleDetailActivity
-        scheduleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        eventViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: " + "[id=" + schedule.getId() + ", isFinish=" + schedule.isFinish() + ", title=" + schedule.getTitle() + "]");
@@ -141,7 +125,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         });
 
         // TODO: 2022/4/9 注册长按的监听事件：弹出删除任务的对话框
-        scheduleViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        eventViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Log.d(TAG, "onLongClick: ing");
@@ -156,24 +140,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemCount() {
         return mSchedules == null ? 0 : mSchedules.size();
-    }
-
-    /**
-     * 适配日程（Schedule)内的item
-     */
-    protected class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        protected CheckBox cbScheduleState;
-        protected TextView tvScheduleTitle;
-        protected TextView tvScheduleTime;
-
-        public ScheduleViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            cbScheduleState = itemView.findViewById(R.id.cbScheduleState);
-            tvScheduleTitle = itemView.findViewById(R.id.tvScheduleTitle);
-            tvScheduleTime = itemView.findViewById(R.id.tvScheduleTime);
-        }
-
     }
 
     /**
@@ -218,6 +184,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * @param schedule
      */
     public void insertItem(Schedule schedule) {
+        //RecyclerView正在测绘或者正在滚动时，调用notify相关方法会报错
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
             mSchedules.add(schedule);
             mCheckState.put(mSchedules.size(), schedule.isFinish());
@@ -272,5 +239,5 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
-
 }
+

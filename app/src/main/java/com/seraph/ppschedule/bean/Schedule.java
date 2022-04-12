@@ -1,5 +1,7 @@
 package com.seraph.ppschedule.bean;
 
+import android.support.annotation.NonNull;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
@@ -69,5 +71,13 @@ public class Schedule extends LitePalSupport {
 
     public void setFinish(boolean finish) {
         isFinish = finish;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        //String result = "[id=" + id + ", "
+
+        return super.toString();
     }
 }

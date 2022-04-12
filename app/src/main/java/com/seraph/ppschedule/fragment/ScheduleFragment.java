@@ -87,7 +87,7 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
       itemAnimator.setSupportsChangeAnimations(false);
       rvScheduleList.setItemAnimator(itemAnimator);
-      mScheduleAdapter = new ScheduleAdapter(mActivity, this, scheduleList);
+      mScheduleAdapter = new ScheduleAdapter(mActivity, this, scheduleList, rvScheduleList);
       rvScheduleList.setAdapter(mScheduleAdapter);
    }
 
