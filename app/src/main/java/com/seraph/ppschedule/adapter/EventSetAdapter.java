@@ -27,7 +27,7 @@ import java.util.List;
 
 public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "ScheduleAdapter";
+    private static final String TAG = "EvenSetAdapter";
 
     private Context mContext;
     private BaseFragment mFragment;
@@ -107,11 +107,36 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d(TAG, "onCheckedChanged: isChecked=" + isChecked);
 
-                int position = (int) buttonView.getTag();
-                mCheckState.put(position, isChecked);
+//                int position = (int) buttonView.getTag();
+//                mCheckState.put(position, isChecked);
+//
+//                schedule.setFinish(isChecked);
+//                mFragment.changeScheduleSate(schedule);  //刷新两个List(done & undo)的UI状态
 
-                schedule.setFinish(isChecked);
-                mFragment.changeScheduleSate(schedule);  //刷新两个List(done & undo)的UI状态
+                int position = (int) buttonView.getTag();
+                if(!isChecked) {
+                    mCheckState.put(position, false);
+                    schedule.setFinish(false);
+                    //取消删除线
+                    eventViewHolder.tvEventTitle
+                            .setPaintFlags(eventViewHolder.tvEventTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    //变更字体颜色
+                    eventViewHolder.tvEventTitle
+                            .setTextColor(mContext.getResources().getColor(R.color.color_schedule_title_text));
+
+                } else {
+                    mCheckState.put(position, true);
+                    schedule.setFinish(true);
+                    //设置删除线
+                    eventViewHolder.tvEventTitle
+                            .setPaintFlags(eventViewHolder.tvEventTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    //变更字体颜色
+                    eventViewHolder.tvEventTitle
+                            .setTextColor(mContext.getResources().getColor(R.color.color_schedule_finish_title_text));
+                }
+
+                changeScheduleItem(schedule);  //更新schedule item的UI状态
+
             }
         });
 
@@ -186,8 +211,8 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void insertItem(Schedule schedule) {
         //RecyclerView正在测绘或者正在滚动时，调用notify相关方法会报错
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
-            mSchedules.add(schedule);
             mCheckState.put(mSchedules.size(), schedule.isFinish());
+            mSchedules.add(schedule);
             Log.d(TAG, "insertItem: mCheckState=" + mCheckState.toString());
             notifyItemInserted(mSchedules.size() - 1);
             notifyDataSetChanged();

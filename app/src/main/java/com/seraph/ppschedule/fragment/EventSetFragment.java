@@ -45,11 +45,14 @@ public class EventSetFragment extends BaseFragment {
     private LinearLayout llDone;  //用于展示已完成list的LinearLayout
     private RecyclerView rvDone;  //用于展示已完成list的RecyclerView
 
+    //因拆分undo list和done list在实现过程中遇到问题，现决定先不拆分，将二者一起展示，效果同ScheduleFragment
+    private RecyclerView rvAll;
+    private List<Schedule> schedules = new ArrayList<>();
+    private EventSetAdapter adapter;
 
     public static EventSetFragment getInstance() {
         return new EventSetFragment();
     }
-
 
     @Nullable
     @Override
@@ -58,8 +61,11 @@ public class EventSetFragment extends BaseFragment {
         mView = inflater.inflate(R.layout.fragment_eventset, container, false);
 
         initView();
-        loadScheduleList();
-        initRecyclerView();
+//        loadScheduleList();
+//        initRecyclerView();
+
+        newLoadScheduleList();
+        newInitRecyclerView();
 
         return mView;
     }
@@ -73,6 +79,8 @@ public class EventSetFragment extends BaseFragment {
 
         llDone = mView.findViewById(R.id.llEventSetOfDone);
         rvDone = mView.findViewById(R.id.rvListDone);
+
+        rvAll = mView.findViewById(R.id.rvListUndo);  //临时方案
     }
 
     private void initRecyclerView() {
@@ -96,11 +104,36 @@ public class EventSetFragment extends BaseFragment {
         rvDone.setAdapter(adapterDone);
     }
 
+    private void newInitRecyclerView() {
+        LinearLayoutManager manager = new LinearLayoutManager(mActivity);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        manager.setItemPrefetchEnabled(false);
+
+        DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setSupportsChangeAnimations(false);
+
+        adapter = new EventSetAdapter(mActivity, this, schedules, rvAll);
+        rvAll.setLayoutManager(manager);
+        rvAll.setItemAnimator(itemAnimator);
+        rvAll.setAdapter(adapter);
+    }
+
     private void loadScheduleList() {
         loadUndoList();
         loadDoneList();
 
         //设置兜底View的可见性
+        resetVisibilityOfNoTaskView();
+    }
+
+    private void newLoadScheduleList() {
+        for(int i = 0; i < 10; i++) {
+            schedules.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
+        }
+
+        schedules.get(3).setFinish(true);
+        schedules.get(6).setFinish(true);
+
         resetVisibilityOfNoTaskView();
     }
 
@@ -123,19 +156,29 @@ public class EventSetFragment extends BaseFragment {
     public void resetVisibilityOfNoTaskView() {
         Log.d(TAG, "resetVisibilityOfNoTaskView: ");
         //设置展示控件的可见性
-        if(undoList.size() > 0) {
+//        if(undoList.size() > 0) {
+//            rlUndo.setVisibility(View.VISIBLE);
+//        } else {
+//            rlUndo.setVisibility(View.GONE);
+//        }
+//
+//        if(doneList.size() > 0) {
+//            llDone.setVisibility(View.VISIBLE);
+//        } else {
+//            llDone.setVisibility(View.GONE);
+//        }
+//
+//        rlNoTask.setVisibility((undoList.size() > 0 || doneList.size() > 0) ? View.GONE : View.VISIBLE);
+
+        if(schedules.size() > 0) {
             rlUndo.setVisibility(View.VISIBLE);
+            rlNoTask.setVisibility(View.GONE);
         } else {
             rlUndo.setVisibility(View.GONE);
+            rlNoTask.setVisibility(View.VISIBLE);
         }
 
-        if(doneList.size() > 0) {
-            llDone.setVisibility(View.VISIBLE);
-        } else {
-            llDone.setVisibility(View.GONE);
-        }
-        
-        rlNoTask.setVisibility((undoList.size() > 0 || doneList.size() > 0) ? View.GONE : View.VISIBLE);
+
     }
 
     @Override

@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ft.commit();
         llTitleDate.setVisibility(View.GONE);
         tvMainTitle.setVisibility(View.VISIBLE);
+        tvMainTitle.setText("收集箱");
         mDrawer.closeDrawer(Gravity.START);
     }
 

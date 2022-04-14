@@ -5,86 +5,81 @@
     android:background="@color/colorBackground"
     android:orientation="vertical">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/rlEventFragNoTask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:background="@color/colorBackground">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/bg_no_task" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <RelativeLayout
+            android:id="@+id/rlEventSetOfUndo"
+            android:background="@drawable/bg_white_corner"
+            android:layout_marginTop="@dimen/space_10dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_marginBottom="@dimen/space_10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/rlEventFragNoTask"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvListUndo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:background="@color/colorBackground">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/bg_no_task" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlEventSetOfUndo"
-                android:background="@drawable/bg_white_corner"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_10dp"
                 android:layout_marginTop="@dimen/space_10dp"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_marginBottom="@dimen/space_10dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/llEventSetOfDone"
+            android:background="@drawable/bg_white_corner"
+            android:layout_marginTop="@dimen/space_10dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_marginBottom="@dimen/space_10dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="已完成"
+                android:textColor="@color/color_schedule_text"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/space_6dp"
+                android:layout_marginLeft="@dimen/space_10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvListDone"
+                android:layout_marginTop="@dimen/space_6dp"
                 android:layout_marginLeft="@dimen/space_10dp"
                 android:layout_marginRight="@dimen/space_10dp"
                 android:layout_marginBottom="@dimen/space_10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvListUndo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/space_10dp"
-                    android:layout_marginTop="@dimen/space_10dp"
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_marginBottom="@dimen/space_10dp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/llEventSetOfDone"
-                android:background="@drawable/bg_white_corner"
-                android:layout_marginTop="@dimen/space_10dp"
-                android:layout_marginLeft="@dimen/space_10dp"
-                android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginBottom="@dimen/space_10dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="已完成"
-                    android:textColor="@color/color_schedule_text"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="@dimen/space_6dp"
-                    android:layout_marginLeft="@dimen/space_10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvListDone"
-                    android:layout_marginTop="@dimen/space_6dp"
-                    android:layout_marginLeft="@dimen/space_10dp"
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_marginBottom="@dimen/space_10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
 
 </LinearLayout>
