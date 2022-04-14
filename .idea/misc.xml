@@ -10,6 +10,7 @@
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item.xml" value="0.148" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item_normal.xml" value="0.148" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item_press.xml" value="0.148" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_white.xml" value="0.143" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_white_corner.xml" value="0.139" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/btn_cancel.xml" value="0.148" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/btn_clock.xml" value="0.1535" />
@@ -21,6 +22,7 @@
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/schedule_input_edit_text.xml" value="0.1535" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/schedule_input_edit_text_focus.xml" value="0.1535" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_schedule_detail.xml" value="0.2390625" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/dialog_confirm.xml" value="0.264" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/fragment_eventset.xml" value="0.264" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/fragment_schedule.xml" value="0.2808155699721965" />

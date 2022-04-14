@@ -1,6 +1,7 @@
 package com.seraph.ppschedule.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seraph.ppschedule.R;
+import com.seraph.ppschedule.activity.ScheduleDetailActivity;
 import com.seraph.ppschedule.bean.Schedule;
 import com.seraph.ppschedule.dialog.ConfirmDialog;
 import com.seraph.ppschedule.fragment.BaseFragment;
@@ -136,11 +138,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: " + "[id=" + schedule.getId() + ", isFinish=" + schedule.isFinish() + ", title=" + schedule.getTitle() + "]");
-                Toast.makeText(mContext, "[id=" + schedule.getId() + ", isFinish=" + schedule.isFinish() + ", title=" + schedule.getTitle() + "]", Toast.LENGTH_SHORT).show();
+
+                mContext.startActivity(new Intent(mContext, ScheduleDetailActivity.class)
+                        .putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
+                        .putExtra(ScheduleDetailActivity.TOOLBAR_TITLE, "日程"));
             }
         });
 
-        // TODO: 2022/4/9 注册长按的监听事件：弹出删除任务的对话框
         scheduleViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

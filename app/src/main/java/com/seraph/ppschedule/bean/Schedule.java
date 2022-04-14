@@ -5,13 +5,14 @@ import android.support.annotation.NonNull;
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * 记录任务信息的实体类
  */
-public class Schedule extends LitePalSupport {
+public class Schedule extends LitePalSupport implements Serializable {
 
     private long id;  //唯一标识
     private String title;  //标题
