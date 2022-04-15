@@ -1,6 +1,10 @@
 package com.seraph.ppschedule.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +29,7 @@ import com.jeek.calendar.widget.calendar.schedule.ScheduleRecyclerView;
 import com.jimmy.common.util.DeviceUtils;
 import com.jimmy.common.util.ToastUtils;
 import com.seraph.ppschedule.R;
+import com.seraph.ppschedule.activity.ScheduleDetailActivity;
 import com.seraph.ppschedule.adapter.ScheduleAdapter;
 import com.seraph.ppschedule.activity.MainActivity;
 import com.seraph.ppschedule.bean.Schedule;
@@ -55,13 +60,16 @@ public class ScheduleFragment extends BaseFragment
    private int mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay;   //当前被选中的日期数据
    private long mTime;
 
+   private UpdateSchedulesBroadcastReceiver receiver;
+
    public static ScheduleFragment getInstance() {
       return new ScheduleFragment();
    }
 
    @Nullable
    @Override
-   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                            @Nullable Bundle savedInstanceState) {
       mActivity = getActivity();
       mView = inflater.inflate(R.layout.fragment_schedule, container, false);
 
@@ -70,6 +78,7 @@ public class ScheduleFragment extends BaseFragment
       initBottomInputBar();
       loadScheduleListFromDB();
       initScheduleList();
+      //initBroadcastReceiver();
 
       return mView;
    }
@@ -96,6 +105,15 @@ public class ScheduleFragment extends BaseFragment
       rvScheduleList.setItemAnimator(itemAnimator);
       mScheduleAdapter = new ScheduleAdapter(mActivity, this, scheduleList, rvScheduleList);
       rvScheduleList.setAdapter(mScheduleAdapter);
+   }
+
+   private void initBroadcastReceiver() {
+      if (receiver == null) {
+         receiver = new UpdateSchedulesBroadcastReceiver();
+         IntentFilter filter = new IntentFilter();
+         filter.addAction(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES);
+         mActivity.registerReceiver(receiver, filter);
+      }
    }
 
    /**
@@ -290,5 +308,23 @@ public class ScheduleFragment extends BaseFragment
    @Override
    public int getCurrentCalendarPosition() {
       return slSchedule.getMonthCalendar().getCurrentItem();
+   }
+
+
+   @Override
+   public void onDestroy() {
+      mActivity.unregisterReceiver(receiver);
+      super.onDestroy();
+   }
+
+   private class UpdateSchedulesBroadcastReceiver extends BroadcastReceiver {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+         Log.d(TAG, "onReceive: " + intent.getAction());
+         if(intent.getAction().equals(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES)) {
+            Log.d(TAG, "onReceive: changing");
+            mScheduleAdapter.updateAllScheduleData(scheduleList);
+         }
+      }
    }
 }

@@ -2,6 +2,8 @@ package com.seraph.ppschedule.bean;
 
 import android.support.annotation.NonNull;
 
+import com.seraph.ppschedule.utils.DateUtils;
+
 import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
@@ -87,8 +89,16 @@ public class Schedule extends LitePalSupport implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        //String result = "[id=" + id + ", "
+        String result = "[info=" + super.toString()
+                + ", id=" + id
+                + ", isFinish=" + isFinish
+                + ", tittle=" + title
+                + ", desc=" + desc
+                + ", date=" + date.get(Calendar.YEAR) + "/" + date.get(Calendar.MONTH) + "/" + date.get(Calendar.DATE)
+                + ", time=" + time
+                + ", timeOfDate=" + DateUtils.timeStamp2Date(time, null)
+                + "]";
 
-        return super.toString();
+        return result;
     }
 }

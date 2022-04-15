@@ -1,5 +1,6 @@
 package com.seraph.ppschedule.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,11 +22,13 @@ import com.seraph.ppschedule.utils.DateUtils;
 import java.util.Calendar;
 import java.util.Date;
 
-// TODO: 2022/4/14 1、内容变更时添加DB操作 2、增加日期的变更能力 
+// TODO: 2022/4/14 1、内容变更时添加DB操作
+// TODO: 2022/4/15 在DetailActivity中完成变更后直接更新DB，从DetailActivity返回Frag的时候，读DB更新数据
 public class ScheduleDetailActivity extends AppCompatActivity implements SelectDateDialog.OnSelectDateListener {
     public static final String SCHEDULE_OBJ = "schedule_obj";
     public static final String TOOLBAR_TITLE = "toolbar_title";
     public static String CALENDAR_POSITION = "calendar.position";
+    public static String ACTION_UPDATE_SCHEDULES = "action.update.schedules";
 
     private static final String TAG = "ScheduleDetailActivity";
 
@@ -41,6 +44,7 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
     private SelectDateDialog mSelectDateDialog;
     private long mTime;
+    private int mPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
     private void initData() {
         mSchedule = (Schedule) getIntent().getSerializableExtra(SCHEDULE_OBJ);
+        mPosition = getIntent().getIntExtra(CALENDAR_POSITION, -1);
         title = getIntent().getStringExtra(TOOLBAR_TITLE);
 
         Log.d(TAG, "initData: mSchedule=" + mSchedule.toString());
@@ -98,7 +103,7 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
         tvDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showSelectDateDialog();
             }
         });
 
@@ -114,8 +119,8 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(TAG, "afterTextChanged: Title = " + etTitle.getText().toString());
-                //mSchedule.setTitle(etTitle.getText().toString());
+                Log.d(TAG, "afterTextChanged: Title=" + etTitle.getText().toString());
+                mSchedule.setTitle(etTitle.getText().toString());
             }
         });
 
@@ -132,18 +137,19 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(TAG, "afterTextChanged: Desc" + etDesc.getText().toString());
-                //mSchedule.setDesc(etDesc.getText().toString());
+                Log.d(TAG, "afterTextChanged: Desc=" + etDesc.getText().toString());
+                mSchedule.setDesc(etDesc.getText().toString());
             }
         });
     }
 
-
-    // TODO: 2022/4/15 研究EventSetFragment如何传入mPosition
     private void showSelectDateDialog() {
         if (mSelectDateDialog == null) {
             mSelectDateDialog = new SelectDateDialog(this, this,
-                    mSchedule.getDate().get(Calendar.YEAR), mSchedule.getDate().get(Calendar.MONTH), mSchedule.getDate().get(Calendar.DATE), mPosition);
+                    mSchedule.getDate().get(Calendar.YEAR),
+                    mSchedule.getDate().get(Calendar.MONTH),
+                    mSchedule.getDate().get(Calendar.DATE),
+                    mPosition);
         }
         mSelectDateDialog.show();
     }
@@ -156,7 +162,6 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
     }
 
     private void resetDateUi() {
-
         if(mSchedule.getTime() == 0) {
             tvDate.setText(DateUtils.date2DateString(mSchedule.getDate().getTime()));
         } else {
@@ -165,4 +170,19 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
     }
 
+
+
+    @Override
+    protected void onStop() {
+        Toast.makeText(this, "ScheduleDetailActivity onStop()", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onStop: mSchedule=" + mSchedule.toString());
+        //sendBroadcast(new Intent(ACTION_UPDATE_SCHEDULES));
+
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

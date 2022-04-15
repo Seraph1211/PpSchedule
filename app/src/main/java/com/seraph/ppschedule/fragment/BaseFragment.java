@@ -1,6 +1,7 @@
 package com.seraph.ppschedule.fragment;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.seraph.ppschedule.bean.Schedule;
 
@@ -36,6 +37,12 @@ public class BaseFragment extends Fragment {
      */
     public void resetScheduleList(){}
 
+    @Override
+    public void onStart() {
+        Log.d("BaseFrag", "onStart: ");
+        resetScheduleList();
+        super.onStart();
+    }
 
     public int getCurrentCalendarPosition() {
         return -1;

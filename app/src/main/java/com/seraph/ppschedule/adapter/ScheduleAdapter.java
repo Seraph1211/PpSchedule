@@ -72,6 +72,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final Schedule schedule = mSchedules.get(i);
         final ScheduleViewHolder scheduleViewHolder = (ScheduleViewHolder) viewHolder;
 
+        Log.d(TAG, "onBindViewHolder: schedule=" + schedule.toString());
+
         //根据Schedule数据设置控件状态
         scheduleViewHolder.cbScheduleState.setTag(i);
         scheduleViewHolder.tvScheduleTitle.setText(schedule.getTitle());
@@ -141,6 +143,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 mContext.startActivity(new Intent(mContext, ScheduleDetailActivity.class)
                         .putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
+                        .putExtra(ScheduleDetailActivity.CALENDAR_POSITION, mFragment.getCurrentCalendarPosition())
                         .putExtra(ScheduleDetailActivity.TOOLBAR_TITLE, "日程"));
             }
         });
@@ -273,8 +276,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * @param schedules
      */
     public void updateAllScheduleData(List<Schedule> schedules) {
-        mSchedules = schedules;
-        notifyDataSetChanged();
+        Log.d(TAG, "updateAllScheduleData: ing");
+        while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
+            Log.d(TAG, "updateAllScheduleData: ing2");
+            mSchedules = schedules;
+            notifyDataSetChanged();
+            break;
+        }
+
     }
 
 
