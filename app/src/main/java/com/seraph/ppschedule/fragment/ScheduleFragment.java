@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,16 +23,22 @@ import com.jeek.calendar.widget.calendar.OnCalendarClickListener;
 import com.jeek.calendar.widget.calendar.schedule.ScheduleLayout;
 import com.jeek.calendar.widget.calendar.schedule.ScheduleRecyclerView;
 import com.jimmy.common.util.DeviceUtils;
+import com.jimmy.common.util.ToastUtils;
 import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.adapter.ScheduleAdapter;
 import com.seraph.ppschedule.activity.MainActivity;
 import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dialog.SelectDateDialog;
+import com.seraph.ppschedule.utils.DateUtils;
 
+import java.sql.DatabaseMetaData;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ScheduleFragment extends BaseFragment implements View.OnClickListener, OnCalendarClickListener {
+public class ScheduleFragment extends BaseFragment
+        implements View.OnClickListener, OnCalendarClickListener, SelectDateDialog.OnSelectDateListener {
 
    private static final String TAG = "ScheduleFragment";
 
@@ -90,8 +97,6 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       mScheduleAdapter = new ScheduleAdapter(mActivity, this, scheduleList, rvScheduleList);
       rvScheduleList.setAdapter(mScheduleAdapter);
    }
-
-
 
    /**
     * 从DB中加载Schedule数据
@@ -194,6 +199,8 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       if (mActivity instanceof MainActivity) {
          ((MainActivity) mActivity).resetMainTitleDate(year, month, day);
       }
+      Log.d(TAG, "setCurrentSelectDate: selectDate=" + mCurrentSelectYear + "/" + mCurrentSelectMonth + "/" + mCurrentSelectDay);
+
    }
 
    @Override
@@ -201,13 +208,19 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       switch (v.getId()) {
          case R.id.ibMainClock:
             Toast.makeText(mActivity, "Clock", Toast.LENGTH_SHORT).show();
+            showSelectDateDialog();
             break;
 
          case R.id.ibMainOk:
             Toast.makeText(mActivity, "Ok", Toast.LENGTH_SHORT).show();
+            insertSchedule();
             break;
 
       }
+   }
+
+   private void showSelectDateDialog() {
+      new SelectDateDialog(mActivity, this, mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay, slSchedule.getMonthCalendar().getCurrentItem()).show();
    }
 
    /**
@@ -230,10 +243,26 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
    }
 
    @Override
-   public void insertSchedule(Schedule schedule) {
-      if(mScheduleAdapter != null) {
-         mScheduleAdapter.insertItem(schedule);
+   public void insertSchedule() {
+      String content = etInputContent.getText().toString();
+      if (TextUtils.isEmpty(content)) {
+         ToastUtils.showShortToast(mActivity, R.string.schedule_input_content_is_no_null);
+      } else {
+         closeSoftInput();
+         etInputContent.getText().clear();
+
+         Calendar calendar = Calendar.getInstance();
+         calendar.set(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
+
+         Schedule schedule = new Schedule(content, "", calendar, false);
+         schedule.setTime(mTime);
+
+         mTime = 0;
+         if(mScheduleAdapter != null) {
+            mScheduleAdapter.insertItem(schedule);
+         }
       }
+
    }
 
    @Override
@@ -241,5 +270,25 @@ public class ScheduleFragment extends BaseFragment implements View.OnClickListen
       if(mScheduleAdapter != null) {
          mScheduleAdapter.removeItem(schedule);
       }
+   }
+
+   @Override
+   public void onSelectDate(final int year, final int month, final int day, long time, int position) {
+      slSchedule.getMonthCalendar().setCurrentItem(position);
+      slSchedule.postDelayed(new Runnable() {
+         @Override
+         public void run() {
+            slSchedule.getMonthCalendar().getCurrentMonthView().clickThisMonth(year, month, day);
+         }
+      }, 100);
+      mTime = time;
+      Log.d(TAG, "onSelectDate: mTime=" + mTime);
+      Log.d(TAG, "onSelectDate: mTime=" + DateUtils.timeStamp2Date(mTime, null));
+      Log.d(TAG, "onSelectDate: selectDate=" + mCurrentSelectYear + "/" + mCurrentSelectMonth + "/" + mCurrentSelectDay);
+   }
+
+   @Override
+   public int getCurrentCalendarPosition() {
+      return slSchedule.getMonthCalendar().getCurrentItem();
    }
 }

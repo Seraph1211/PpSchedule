@@ -17,14 +17,16 @@ public class Schedule extends LitePalSupport implements Serializable {
     private long id;  //唯一标识
     private String title;  //标题
     private String desc;  //描述
-    private Calendar date; //时间
+    private Calendar date; //日期
     private boolean isFinish;  //完成标记
+    private long time;  //HH:mm
 
     public Schedule() {
         title = "";
         desc = "";
         date = Calendar.getInstance();
         isFinish = false;
+        time = 0;
     }
 
     public Schedule(String title, String desc, Calendar date, boolean isFinish) {
@@ -72,6 +74,14 @@ public class Schedule extends LitePalSupport implements Serializable {
 
     public void setFinish(boolean finish) {
         isFinish = finish;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     @NonNull

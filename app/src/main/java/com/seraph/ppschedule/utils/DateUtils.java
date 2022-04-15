@@ -23,7 +23,7 @@ public class DateUtils {
             return "";
         }
         if (format == null || format.isEmpty()) {
-            format = "yyyy-MM-dd HH:mm:ss";
+            format = "yyyy/MM/dd HH:mm";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(new Date(time));

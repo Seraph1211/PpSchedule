@@ -94,12 +94,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .setTextColor(mContext.getResources().getColor(R.color.color_schedule_title_text));
         }
 
-        // TODO: 2022/4/10 没有兼容用户只设置了日期，没有设置具体时间的情况
-        if(schedule.getDate() != null) {
-            scheduleViewHolder.tvScheduleTime.setText(DateUtils.date2Time(schedule.getDate().getTime()));
+        if(schedule.getTime() != 0) {
+            scheduleViewHolder.tvScheduleTime.setText(DateUtils.timeStamp2Time(schedule.getTime()));
         } else {
             scheduleViewHolder.tvScheduleTime.setText("");
         }
+
 
         // TODO: 2022/4/9 CheckBox的选中状态改变后，还需要随之同步Schedule的完成状态到DB中
         //为CheckBox注册监听事件
@@ -228,6 +228,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Log.d(TAG, "insertItem: mCheckState=" + mCheckState.toString());
             notifyItemInserted(mSchedules.size() - 1);
             notifyDataSetChanged();
+            mFragment.resetVisibilityOfNoTaskView();
             break;
         }
 

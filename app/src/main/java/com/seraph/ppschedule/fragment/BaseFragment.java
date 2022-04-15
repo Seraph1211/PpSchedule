@@ -10,7 +10,7 @@ public class BaseFragment extends Fragment {
      * 添加schedule
      * @param schedule
      */
-    public void insertSchedule(Schedule schedule) {}
+    public void insertSchedule() {}
 
     /**
      * 删除schedule
@@ -35,4 +35,9 @@ public class BaseFragment extends Fragment {
      * 2、调用adapter的notify方法刷新视图
      */
     public void resetScheduleList(){}
+
+
+    public int getCurrentCalendarPosition() {
+        return -1;
+    }
 }
