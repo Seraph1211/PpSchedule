@@ -31,11 +31,12 @@ public class Schedule extends LitePalSupport implements Serializable {
         time = 0;
     }
 
-    public Schedule(String title, String desc, Calendar date, boolean isFinish) {
+    public Schedule(String title, String desc, Calendar date, boolean isFinish, long time) {
         this.title = title;
         this.desc = desc;
         this.date = date;
         this.isFinish = isFinish;
+        this.time = time;
     }
 
     public long getId() {

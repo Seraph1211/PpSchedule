@@ -19,6 +19,7 @@ import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.adapter.EventSetAdapter;
 import com.seraph.ppschedule.adapter.ScheduleAdapter;
 import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dao.ScheduleDao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -127,29 +128,29 @@ public class EventSetFragment extends BaseFragment {
     }
 
     private void newLoadScheduleList() {
-        for(int i = 0; i < 10; i++) {
-            schedules.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
-        }
 
-        schedules.get(3).setFinish(true);
-        schedules.get(6).setFinish(true);
+        undoList = ScheduleDao.getInstance().findAllSchedule();
 
         resetVisibilityOfNoTaskView();
     }
 
+    //临时方案
     private void loadUndoList() {
         Log.d(TAG, "loadUndoList: ");
 
-        for(int i = 0; i < 5; i++) {
-            undoList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
-        }
+
+        undoList = ScheduleDao.getInstance().findAllSchedule();
+
+//        for(int i = 0; i < 5; i++) {
+//            undoList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
+//        }
     }
 
     private void loadDoneList() {
         Log.d(TAG, "loadDoneList: ");
-        for(int i = 0; i < 10; i++) {
-            doneList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), true));
-        }
+//        for(int i = 0; i < 10; i++) {
+//            doneList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), true));
+//        }
     }
 
     @Override

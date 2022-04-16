@@ -33,6 +33,7 @@ import com.seraph.ppschedule.activity.ScheduleDetailActivity;
 import com.seraph.ppschedule.adapter.ScheduleAdapter;
 import com.seraph.ppschedule.activity.MainActivity;
 import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.dialog.SelectDateDialog;
 import com.seraph.ppschedule.utils.DateUtils;
 
@@ -127,22 +128,25 @@ public class ScheduleFragment extends BaseFragment
     */
    private void loadScheduleListFromDB() {
       Log.d(TAG, "LoadScheduleList: ");
-
       if(scheduleList.size() > 0) {
          scheduleList.clear();
       }
 
-      // TODO: 2022/4/9 从DB中读取选中日期的schedule数据
       Calendar calendar = Calendar.getInstance();
-      if(mCurrentSelectYear ==  calendar.get(Calendar.YEAR)
-      && mCurrentSelectMonth == calendar.get(Calendar.MONTH)
-      && mCurrentSelectDay == calendar.get(Calendar.DATE)) {
-         for(int i = 0; i < 5; i++) {
-            scheduleList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
-         }
+      calendar.set(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
 
-         scheduleList.get(3).setFinish(true );
-      }
+      scheduleList = ScheduleDao.getInstance().findScheduleByDate(calendar);
+
+//      Calendar calendar = Calendar.getInstance();
+//      if(mCurrentSelectYear ==  calendar.get(Calendar.YEAR)
+//      && mCurrentSelectMonth == calendar.get(Calendar.MONTH)
+//      && mCurrentSelectDay == calendar.get(Calendar.DATE)) {
+//         for(int i = 0; i < 5; i++) {
+//            scheduleList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
+//         }
+//
+//         scheduleList.get(3).setFinish(true );
+//      }
 
       resetVisibilityOfNoTaskView(); //设置兜底View的可见性
    }
@@ -272,8 +276,7 @@ public class ScheduleFragment extends BaseFragment
          Calendar calendar = Calendar.getInstance();
          calendar.set(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
 
-         Schedule schedule = new Schedule(content, "", calendar, false);
-         schedule.setTime(mTime);
+         Schedule schedule = new Schedule(content, "", calendar, false, mTime);
 
          mTime = 0;
          if(mScheduleAdapter != null) {
@@ -313,7 +316,7 @@ public class ScheduleFragment extends BaseFragment
 
    @Override
    public void onDestroy() {
-      mActivity.unregisterReceiver(receiver);
+      //mActivity.unregisterReceiver(receiver);
       super.onDestroy();
    }
 

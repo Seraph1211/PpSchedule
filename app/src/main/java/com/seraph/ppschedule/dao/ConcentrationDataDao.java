@@ -10,6 +10,21 @@ import java.util.List;
 
 public class ConcentrationDataDao {
 
+   private static ConcentrationDataDao dao;
+
+   private ConcentrationDataDao() {
+
+   }
+
+   public static ConcentrationDataDao getInstance() {
+      if(dao == null) {
+         dao = new ConcentrationDataDao();
+      }
+
+      return dao;
+   }
+
+
    /**
     * 获取某一天的专注时长
     * @param year

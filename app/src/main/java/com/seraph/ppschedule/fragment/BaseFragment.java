@@ -9,7 +9,6 @@ public class BaseFragment extends Fragment {
 
     /**
      * 添加schedule
-     * @param schedule
      */
     public void insertSchedule() {}
 

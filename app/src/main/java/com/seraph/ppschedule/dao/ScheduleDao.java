@@ -10,6 +10,19 @@ import java.util.List;
 
 public class ScheduleDao {
 
+    private static ScheduleDao dao;
+
+    private ScheduleDao() {
+
+    }
+
+    public static ScheduleDao getInstance() {
+        if(dao == null) {
+            dao = new ScheduleDao();
+        }
+        return dao;
+    }
+
     public boolean updateSchedule(Schedule schedule) {
         return schedule.save();
     }
@@ -30,8 +43,8 @@ public class ScheduleDao {
      * @param calendar
      * @return
      */
-    public boolean addSchedule(String title, String desc, Calendar calendar) {
-        return new Schedule(title, desc, calendar, false).save();
+    public boolean addSchedule(String title, String desc, Calendar calendar, long time) {
+        return new Schedule(title, desc, calendar, false, time).save();
     }
 
     public List<Schedule> findAllSchedule() {

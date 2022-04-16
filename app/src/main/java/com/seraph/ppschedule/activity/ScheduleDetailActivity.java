@@ -1,6 +1,5 @@
 package com.seraph.ppschedule.activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,13 +15,13 @@ import android.widget.Toast;
 
 import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.dialog.SelectDateDialog;
 import com.seraph.ppschedule.utils.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
 
-// TODO: 2022/4/14 1、内容变更时添加DB操作
 // TODO: 2022/4/15 在DetailActivity中完成变更后直接更新DB，从DetailActivity返回Frag的时候，读DB更新数据
 public class ScheduleDetailActivity extends AppCompatActivity implements SelectDateDialog.OnSelectDateListener {
     public static final String SCHEDULE_OBJ = "schedule_obj";
@@ -53,7 +52,6 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
         initData();
         initView();
-
     }
 
     private void initData() {
@@ -96,7 +94,8 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
         cbState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                mSchedule.setFinish(isChecked);
+                ScheduleDao.getInstance().updateSchedule(mSchedule);
             }
         });
 
@@ -119,8 +118,9 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(TAG, "afterTextChanged: Title=" + etTitle.getText().toString());
+                //Log.d(TAG, "afterTextChanged: Title=" + etTitle.getText().toString());
                 mSchedule.setTitle(etTitle.getText().toString());
+                ScheduleDao.getInstance().updateSchedule(mSchedule);
             }
         });
 
@@ -137,8 +137,9 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d(TAG, "afterTextChanged: Desc=" + etDesc.getText().toString());
+                //Log.d(TAG, "afterTextChanged: Desc=" + etDesc.getText().toString());
                 mSchedule.setDesc(etDesc.getText().toString());
+                ScheduleDao.getInstance().updateSchedule(mSchedule);
             }
         });
     }
@@ -158,6 +159,7 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
     public void onSelectDate(int year, int month, int day, long time, int position) {
         mSchedule.getDate().set(year, month, day);
         mSchedule.setTime(time);
+        ScheduleDao.getInstance().updateSchedule(mSchedule);
         resetDateUi();
     }
 

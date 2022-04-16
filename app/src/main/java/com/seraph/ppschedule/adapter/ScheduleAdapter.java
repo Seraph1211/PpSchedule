@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.activity.ScheduleDetailActivity;
 import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.dialog.ConfirmDialog;
 import com.seraph.ppschedule.fragment.BaseFragment;
 import com.seraph.ppschedule.fragment.EventSetFragment;
@@ -103,7 +104,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-        // TODO: 2022/4/9 CheckBox的选中状态改变后，还需要随之同步Schedule的完成状态到DB中
         //为CheckBox注册监听事件
         scheduleViewHolder.cbScheduleState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -131,6 +131,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             .setTextColor(mContext.getResources().getColor(R.color.color_schedule_finish_title_text));
                 }
 
+                ScheduleDao.getInstance().updateSchedule(schedule);
                 changeScheduleItem(schedule);  //更新schedule item的UI状态
             }
         });
@@ -219,7 +220,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }).show();
     }
 
-    // TODO: 2022/4/9 添加&删除item之后还需要更新DB，放到adapter中完成
     /**
      * 添加schedule item
      * @param schedule
@@ -227,6 +227,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void insertItem(Schedule schedule) {
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
             mSchedules.add(schedule);
+            ScheduleDao.getInstance().addSchedule(schedule.getTitle(), schedule.getDesc(), schedule.getDate(), schedule.getTime());
             mCheckState.put(mSchedules.size(), schedule.isFinish());
             Log.d(TAG, "insertItem: mCheckState=" + mCheckState.toString());
             notifyItemInserted(mSchedules.size() - 1);
@@ -247,6 +248,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
                 mCheckState.delete(position);
                 mSchedules.remove(position);
+                ScheduleDao.getInstance().deleteSchedule(schedule.getId());
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
                 mFragment.resetVisibilityOfNoTaskView();
