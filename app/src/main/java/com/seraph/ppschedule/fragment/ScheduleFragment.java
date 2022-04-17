@@ -57,7 +57,7 @@ public class ScheduleFragment extends BaseFragment
    private RelativeLayout rLNoTask;  //当天用户无任务时的展示控件
    private EditText etInputContent;  //底部输入框
 
-   private List<Schedule> scheduleList = new ArrayList<>();
+   private static List<Schedule> scheduleList = new ArrayList<>();
    private int mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay;   //当前被选中的日期数据
    private long mTime;
 
@@ -127,7 +127,6 @@ public class ScheduleFragment extends BaseFragment
     * 4、从ScheduleDetailActivity返回时，更新list数据
     */
    private void loadScheduleListFromDB() {
-      Log.d(TAG, "LoadScheduleList: ");
       if(scheduleList.size() > 0) {
          scheduleList.clear();
       }
@@ -136,6 +135,7 @@ public class ScheduleFragment extends BaseFragment
       calendar.set(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
 
       scheduleList = ScheduleDao.getInstance().findScheduleByDate(calendar);
+      Log.d(TAG, "loadScheduleListFromDB: scheduleList=" + scheduleList.toString());
 
 //      Calendar calendar = Calendar.getInstance();
 //      if(mCurrentSelectYear ==  calendar.get(Calendar.YEAR)
@@ -204,8 +204,6 @@ public class ScheduleFragment extends BaseFragment
    private void initDate() {
       Calendar calendar = Calendar.getInstance();
       setCurrentSelectDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-      Log.d(TAG, "initDate: " + mCurrentSelectYear + "/" + mCurrentSelectMonth + "/" + mCurrentSelectDay);
    }
 
    /**
@@ -221,8 +219,6 @@ public class ScheduleFragment extends BaseFragment
       if (mActivity instanceof MainActivity) {
          ((MainActivity) mActivity).resetMainTitleDate(year, month, day);
       }
-      Log.d(TAG, "setCurrentSelectDate: selectDate=" + mCurrentSelectYear + "/" + mCurrentSelectMonth + "/" + mCurrentSelectDay);
-
    }
 
    @Override
@@ -276,7 +272,13 @@ public class ScheduleFragment extends BaseFragment
          Calendar calendar = Calendar.getInstance();
          calendar.set(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
 
-         Schedule schedule = new Schedule(content, "", calendar, false, mTime);
+         //Schedule schedule = new Schedule(content, "", calendar, false, mTime);
+         Schedule schedule = new Schedule();
+         schedule.setTitle(content);
+         schedule.setDesc("");
+         schedule.setDate(calendar);
+         schedule.setFinish(false);
+         schedule.setTime(mTime);
 
          mTime = 0;
          if(mScheduleAdapter != null) {
@@ -329,5 +331,9 @@ public class ScheduleFragment extends BaseFragment
             mScheduleAdapter.updateAllScheduleData(scheduleList);
          }
       }
+   }
+
+   public static Schedule getScheduleByPosition(int position) {
+      return scheduleList.get(position);
    }
 }

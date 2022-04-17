@@ -69,7 +69,7 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         final Schedule schedule = mSchedules.get(i);
 
         final EventViewHolder eventViewHolder = (EventViewHolder) viewHolder;
@@ -149,7 +149,8 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onClick(View v) {
                 Log.d(TAG, "onClick: " + "[id=" + schedule.getId() + ", isFinish=" + schedule.isFinish() + ", title=" + schedule.getTitle() + "]");
                 mContext.startActivity(new Intent(mContext, ScheduleDetailActivity.class)
-                        .putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
+                        //.putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
+                        .putExtra(ScheduleDetailActivity.SCHEDULE_POSITION, i)
                         .putExtra(ScheduleDetailActivity.CALENDAR_POSITION, -1)
                         .putExtra(ScheduleDetailActivity.TOOLBAR_TITLE, "收集箱"));
             }

@@ -17,6 +17,7 @@ import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.bean.Schedule;
 import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.dialog.SelectDateDialog;
+import com.seraph.ppschedule.fragment.ScheduleFragment;
 import com.seraph.ppschedule.utils.DateUtils;
 
 import java.util.Calendar;
@@ -25,6 +26,7 @@ import java.util.Date;
 // TODO: 2022/4/15 在DetailActivity中完成变更后直接更新DB，从DetailActivity返回Frag的时候，读DB更新数据
 public class ScheduleDetailActivity extends AppCompatActivity implements SelectDateDialog.OnSelectDateListener {
     public static final String SCHEDULE_OBJ = "schedule_obj";
+    public static final String SCHEDULE_POSITION = "schedule_position";
     public static final String TOOLBAR_TITLE = "toolbar_title";
     public static String CALENDAR_POSITION = "calendar.position";
     public static String ACTION_UPDATE_SCHEDULES = "action.update.schedules";
@@ -55,7 +57,8 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
     }
 
     private void initData() {
-        mSchedule = (Schedule) getIntent().getSerializableExtra(SCHEDULE_OBJ);
+        //mSchedule = (Schedule) getIntent().getSerializableExtra(SCHEDULE_OBJ);
+        mSchedule = ScheduleFragment.getScheduleByPosition(getIntent().getIntExtra(SCHEDULE_POSITION, -1));
         mPosition = getIntent().getIntExtra(CALENDAR_POSITION, -1);
         title = getIntent().getStringExtra(TOOLBAR_TITLE);
 
@@ -171,8 +174,6 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
         }
 
     }
-
-
 
     @Override
     protected void onStop() {

@@ -1,14 +1,18 @@
 package com.seraph.ppschedule.dao;
 
+import android.util.Log;
+
 import com.seraph.ppschedule.bean.Schedule;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 public class ScheduleDao {
+    private static final String TAG = "ScheduleDao";
 
     private static ScheduleDao dao;
 
@@ -27,6 +31,7 @@ public class ScheduleDao {
         return schedule.save();
     }
 
+
     /**
      * 根据id删除Schedule
      * @param id
@@ -44,7 +49,28 @@ public class ScheduleDao {
      * @return
      */
     public boolean addSchedule(String title, String desc, Calendar calendar, long time) {
-        return new Schedule(title, desc, calendar, false, time).save();
+        //Log.d(TAG, "addSchedule: " + );
+        //return new Schedule(title, desc, calendar, false, time).save();
+        return false;
+    }
+
+    public boolean addSchedule(Schedule schedule) {
+        if(schedule != null) {
+            Log.d(TAG, "addSchedule: schedule=" + schedule.toString());
+            schedule.save();
+
+            Schedule s = LitePal.find(Schedule.class, schedule.getId());
+            Log.d(TAG, "addSchedule: s=" + s.toString());
+            s.setDate(schedule.getDate());
+            Log.d(TAG, "addSchedule: sA=" + s.toString());
+            s.save();
+            Log.d(TAG, "addSchedule: sAA=" + s.toString());
+            Log.d(TAG, "addSchedule: sAB=" + LitePal.find(Schedule.class, s.getId()).toString());
+
+
+            return true;
+        }
+        return false;
     }
 
     public List<Schedule> findAllSchedule() {
@@ -71,6 +97,7 @@ public class ScheduleDao {
         }
 
         List<Schedule> scheduleList = LitePal.findAll(Schedule.class);
+        List<Schedule> res = new ArrayList<>();
         Iterator<Schedule> iterator = scheduleList.iterator();
         Schedule schedule;
         //获取DB中与目标日期一致的Schedule数据
@@ -80,11 +107,11 @@ public class ScheduleDao {
             if(schedule.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)
             && schedule.getDate().get(Calendar.MONTH) == date.get(Calendar.MONTH)
                     && schedule.getDate().get(Calendar.DATE) == date.get(Calendar.DATE)) {
-                scheduleList.add(schedule);
+                res.add(schedule);
             }
         }
 
-        return scheduleList;
+        return res;
     }
 
 }

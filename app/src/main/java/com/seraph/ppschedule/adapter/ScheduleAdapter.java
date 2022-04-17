@@ -69,11 +69,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
         final Schedule schedule = mSchedules.get(i);
         final ScheduleViewHolder scheduleViewHolder = (ScheduleViewHolder) viewHolder;
 
-        Log.d(TAG, "onBindViewHolder: schedule=" + schedule.toString());
+        //Log.d(TAG, "onBindViewHolder: schedule=" + schedule.toString());
 
         //根据Schedule数据设置控件状态
         scheduleViewHolder.cbScheduleState.setTag(i);
@@ -143,7 +143,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Log.d(TAG, "onClick: " + "[id=" + schedule.getId() + ", isFinish=" + schedule.isFinish() + ", title=" + schedule.getTitle() + "]");
 
                 mContext.startActivity(new Intent(mContext, ScheduleDetailActivity.class)
-                        .putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
+                        //.putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
+                        .putExtra(ScheduleDetailActivity.SCHEDULE_POSITION, i)
                         .putExtra(ScheduleDetailActivity.CALENDAR_POSITION, mFragment.getCurrentCalendarPosition())
                         .putExtra(ScheduleDetailActivity.TOOLBAR_TITLE, "日程"));
             }
@@ -227,9 +228,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void insertItem(Schedule schedule) {
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
             mSchedules.add(schedule);
-            ScheduleDao.getInstance().addSchedule(schedule.getTitle(), schedule.getDesc(), schedule.getDate(), schedule.getTime());
+            //ScheduleDao.getInstance().addSchedule(schedule.getTitle(), schedule.getDesc(), schedule.getDate(), schedule.getTime());
+            Log.d(TAG, "insertItem: scheduleBefore=" + schedule.toString());
+            ScheduleDao.getInstance().addSchedule(schedule);
+            Log.d(TAG, "insertItem: scheduleAfter=" + schedule.toString());
+            Log.d(TAG, "insertItem: list=" + ScheduleDao.getInstance().findAllSchedule().toString());
             mCheckState.put(mSchedules.size(), schedule.isFinish());
-            Log.d(TAG, "insertItem: mCheckState=" + mCheckState.toString());
+            //Log.d(TAG, "insertItem: mCheckState=" + mCheckState.toString());
             notifyItemInserted(mSchedules.size() - 1);
             notifyDataSetChanged();
             mFragment.resetVisibilityOfNoTaskView();
@@ -248,6 +253,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
                 mCheckState.delete(position);
                 mSchedules.remove(position);
+                Log.d(TAG, "removeItem: " + schedule.toString());
+                Log.d(TAG, "removeItem: " + ScheduleDao.getInstance().findAllSchedule().toString());
                 ScheduleDao.getInstance().deleteSchedule(schedule.getId());
                 notifyItemRemoved(position);
                 notifyDataSetChanged();
@@ -278,9 +285,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * @param schedules
      */
     public void updateAllScheduleData(List<Schedule> schedules) {
-        Log.d(TAG, "updateAllScheduleData: ing");
+        initCheckState();
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
-            Log.d(TAG, "updateAllScheduleData: ing2");
             mSchedules = schedules;
             notifyDataSetChanged();
             break;
