@@ -97,8 +97,8 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-        if(schedule.getDate() != null) {
-            eventViewHolder.tvEventTime.setText(DateUtils.date2DateString(schedule.getDate().getTime()));
+        if(schedule.getYear() != 0 && schedule.getMonth() != 0 && schedule.getDay() != 0) {
+            eventViewHolder.tvEventTime.setText(schedule.getYear() + "/" + schedule.getMonth() + "/" + schedule.getDay());
         } else {
             eventViewHolder.tvEventTime.setText("");
         }
@@ -220,7 +220,7 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
             mCheckState.put(mSchedules.size(), schedule.isFinish());
             mSchedules.add(schedule);
-            ScheduleDao.getInstance().addSchedule(schedule.getTitle(), schedule.getDesc(), schedule.getDate(), schedule.getTime());
+            ScheduleDao.getInstance().addSchedule(schedule);
             Log.d(TAG, "insertItem: mCheckState=" + mCheckState.toString());
             notifyItemInserted(mSchedules.size() - 1);
             notifyDataSetChanged();

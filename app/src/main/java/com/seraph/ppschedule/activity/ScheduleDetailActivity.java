@@ -19,6 +19,7 @@ import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.dialog.SelectDateDialog;
 import com.seraph.ppschedule.fragment.ScheduleFragment;
 import com.seraph.ppschedule.utils.DateUtils;
+import com.seraph.ppschedule.utils.StatusBarUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -50,7 +51,13 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StatusBarUtils.setStatusBarColor(this, R.color.colorWrite);  //设置状态栏颜色
+        StatusBarUtils.setLightStatusBar(this, true, true);  //状态栏字体颜色-黑
+
         setContentView(R.layout.activity_schedule_detail);
+
+
 
         initData();
         initView();

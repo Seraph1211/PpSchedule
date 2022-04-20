@@ -42,33 +42,31 @@ public class ScheduleDao {
     }
 
     /**
-     * 新增Schedule
+     * 添加Schedule
      * @param title
      * @param desc
-     * @param calendar
+     * @param year
+     * @param month
+     * @param day
+     * @param time
      * @return
      */
-    public boolean addSchedule(String title, String desc, Calendar calendar, long time) {
+    public boolean addSchedule(String title, String desc, int year, int month, int day, long time) {
         //Log.d(TAG, "addSchedule: " + );
         //return new Schedule(title, desc, calendar, false, time).save();
+        Schedule schedule = new Schedule();
+        schedule.setTitle(title);
         return false;
     }
 
+    /**
+     * 添加Schedule
+     * @param schedule
+     * @return
+     */
     public boolean addSchedule(Schedule schedule) {
         if(schedule != null) {
-            Log.d(TAG, "addSchedule: schedule=" + schedule.toString());
-            schedule.save();
-
-            Schedule s = LitePal.find(Schedule.class, schedule.getId());
-            Log.d(TAG, "addSchedule: s=" + s.toString());
-            s.setDate(schedule.getDate());
-            Log.d(TAG, "addSchedule: sA=" + s.toString());
-            s.save();
-            Log.d(TAG, "addSchedule: sAA=" + s.toString());
-            Log.d(TAG, "addSchedule: sAB=" + LitePal.find(Schedule.class, s.getId()).toString());
-
-
-            return true;
+            return schedule.save();
         }
         return false;
     }
@@ -88,14 +86,12 @@ public class ScheduleDao {
 
     /**
      * 根据日期查询Schedule数据
-     * @param date
+     * @param year
+     * @param month
+     * @param day
      * @return
      */
-    public List<Schedule> findScheduleByDate(Calendar date) {
-        if(date == null) {
-            return null;
-        }
-
+    public List<Schedule> findScheduleByDate(int year, int month, int day) {
         List<Schedule> scheduleList = LitePal.findAll(Schedule.class);
         List<Schedule> res = new ArrayList<>();
         Iterator<Schedule> iterator = scheduleList.iterator();
@@ -104,9 +100,9 @@ public class ScheduleDao {
         while (iterator.hasNext()) {
             schedule = iterator.next();
 
-            if(schedule.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR)
-            && schedule.getDate().get(Calendar.MONTH) == date.get(Calendar.MONTH)
-                    && schedule.getDate().get(Calendar.DATE) == date.get(Calendar.DATE)) {
+            if(schedule.getYear() == year
+            && schedule.getMonth() == month
+            && schedule.getDay() == day) {
                 res.add(schedule);
             }
         }

@@ -130,23 +130,8 @@ public class ScheduleFragment extends BaseFragment
       if(scheduleList.size() > 0) {
          scheduleList.clear();
       }
-
-      Calendar calendar = Calendar.getInstance();
-      calendar.set(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
-
-      scheduleList = ScheduleDao.getInstance().findScheduleByDate(calendar);
+      scheduleList = ScheduleDao.getInstance().findScheduleByDate(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
       Log.d(TAG, "loadScheduleListFromDB: scheduleList=" + scheduleList.toString());
-
-//      Calendar calendar = Calendar.getInstance();
-//      if(mCurrentSelectYear ==  calendar.get(Calendar.YEAR)
-//      && mCurrentSelectMonth == calendar.get(Calendar.MONTH)
-//      && mCurrentSelectDay == calendar.get(Calendar.DATE)) {
-//         for(int i = 0; i < 5; i++) {
-//            scheduleList.add(new Schedule("Title" + (i+1), "", Calendar.getInstance(), false));
-//         }
-//
-//         scheduleList.get(3).setFinish(true );
-//      }
 
       resetVisibilityOfNoTaskView(); //设置兜底View的可见性
    }
@@ -276,7 +261,9 @@ public class ScheduleFragment extends BaseFragment
          Schedule schedule = new Schedule();
          schedule.setTitle(content);
          schedule.setDesc("");
-         schedule.setDate(calendar);
+         schedule.setYear(mCurrentSelectYear);
+         schedule.setMonth(mCurrentSelectMonth);
+         schedule.setDay(mCurrentSelectDay);
          schedule.setFinish(false);
          schedule.setTime(mTime);
 

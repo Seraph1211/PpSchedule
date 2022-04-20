@@ -59,15 +59,14 @@ public class EventSetFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mActivity = getActivity();
-        mView = inflater.inflate(R.layout.fragment_eventset, container, false);
+        //mView = inflater.inflate(R.layout.fragment_eventset, container, false);
 
-        initView();
-//        loadScheduleList();
-//        initRecyclerView();
+        mView = inflater.inflate(R.layout.fragment_eventset_fake, container, false);
 
-        newLoadScheduleList();
-        newInitRecyclerView();
+//        initView();
 
+//        newLoadScheduleList();
+//        newInitRecyclerView();
         return mView;
     }
 
