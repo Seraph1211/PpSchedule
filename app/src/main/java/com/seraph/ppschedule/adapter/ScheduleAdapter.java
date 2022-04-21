@@ -59,6 +59,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             schedule = iterator.next();
             mCheckState.put(mSchedules.indexOf(schedule), schedule.isFinish());
         }
+        //Log.d(TAG, "initCheckState: mCheckState=" + mCheckState.toString());
     }
 
     @NonNull
@@ -285,9 +286,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * @param schedules
      */
     public void updateAllScheduleData(List<Schedule> schedules) {
+        mSchedules = schedules;
         initCheckState();
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
-            mSchedules = schedules;
             notifyDataSetChanged();
             break;
         }

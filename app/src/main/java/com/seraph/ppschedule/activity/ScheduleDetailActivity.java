@@ -157,9 +157,9 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
     private void showSelectDateDialog() {
         if (mSelectDateDialog == null) {
             mSelectDateDialog = new SelectDateDialog(this, this,
-                    mSchedule.getDate().get(Calendar.YEAR),
-                    mSchedule.getDate().get(Calendar.MONTH),
-                    mSchedule.getDate().get(Calendar.DATE),
+                    mSchedule.getYear(),
+                    mSchedule.getMonth(),
+                    mSchedule.getDay(),
                     mPosition);
         }
         mSelectDateDialog.show();
@@ -167,7 +167,9 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
     @Override
     public void onSelectDate(int year, int month, int day, long time, int position) {
-        mSchedule.getDate().set(year, month, day);
+        mSchedule.setYear(year);
+        mSchedule.setMonth(month);
+        mSchedule.setDay(day);
         mSchedule.setTime(time);
         ScheduleDao.getInstance().updateSchedule(mSchedule);
         resetDateUi();
@@ -175,7 +177,7 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
     private void resetDateUi() {
         if(mSchedule.getTime() == 0) {
-            tvDate.setText(DateUtils.date2DateString(mSchedule.getDate().getTime()));
+            tvDate.setText(mSchedule.getYear() + "/" + mSchedule.getMonth() + "/" + mSchedule.getDay());
         } else {
             tvDate.setText(DateUtils.timeStamp2Date(mSchedule.getTime(), null));
         }
@@ -183,16 +185,32 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
     }
 
     @Override
-    protected void onStop() {
-        Toast.makeText(this, "ScheduleDetailActivity onStop()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onStop: mSchedule=" + mSchedule.toString());
-        //sendBroadcast(new Intent(ACTION_UPDATE_SCHEDULES));
+    protected void onStart() {
+        Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
 
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop: ");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
     }
 }

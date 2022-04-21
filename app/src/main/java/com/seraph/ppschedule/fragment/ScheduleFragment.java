@@ -61,7 +61,7 @@ public class ScheduleFragment extends BaseFragment
    private int mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay;   //当前被选中的日期数据
    private long mTime;
 
-   private UpdateSchedulesBroadcastReceiver receiver;
+   //private UpdateSchedulesBroadcastReceiver receiver;
 
    public static ScheduleFragment getInstance() {
       return new ScheduleFragment();
@@ -108,14 +108,14 @@ public class ScheduleFragment extends BaseFragment
       rvScheduleList.setAdapter(mScheduleAdapter);
    }
 
-   private void initBroadcastReceiver() {
-      if (receiver == null) {
-         receiver = new UpdateSchedulesBroadcastReceiver();
-         IntentFilter filter = new IntentFilter();
-         filter.addAction(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES);
-         mActivity.registerReceiver(receiver, filter);
-      }
-   }
+//   private void initBroadcastReceiver() {
+//      if (receiver == null) {
+//         receiver = new UpdateSchedulesBroadcastReceiver();
+//         IntentFilter filter = new IntentFilter();
+//         filter.addAction(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES);
+//         mActivity.registerReceiver(receiver, filter);
+//      }
+//   }
 
    /**
     * 从DB中加载Schedule数据
@@ -127,9 +127,6 @@ public class ScheduleFragment extends BaseFragment
     * 4、从ScheduleDetailActivity返回时，更新list数据
     */
    private void loadScheduleListFromDB() {
-      if(scheduleList.size() > 0) {
-         scheduleList.clear();
-      }
       scheduleList = ScheduleDao.getInstance().findScheduleByDate(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
       Log.d(TAG, "loadScheduleListFromDB: scheduleList=" + scheduleList.toString());
 
@@ -236,7 +233,6 @@ public class ScheduleFragment extends BaseFragment
    public void onClickDate(int year, int month, int day) {
       Toast.makeText(mActivity, "date: " +year + "/" + month + "/" + day, Toast.LENGTH_SHORT).show();
       setCurrentSelectDate(year, month, day);
-      //loadScheduleListFromDB();
       resetScheduleList();
    }
 
@@ -302,25 +298,73 @@ public class ScheduleFragment extends BaseFragment
       return slSchedule.getMonthCalendar().getCurrentItem();
    }
 
+//   private class UpdateSchedulesBroadcastReceiver extends BroadcastReceiver {
+//      @Override
+//      public void onReceive(Context context, Intent intent) {
+//         Log.d(TAG, "onReceive: " + intent.getAction());
+//         if(intent.getAction().equals(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES)) {
+//            Log.d(TAG, "onReceive: changing");
+//            mScheduleAdapter.updateAllScheduleData(scheduleList);
+//         }
+//      }
+//   }
+
+   public static Schedule getScheduleByPosition(int position) {
+      return scheduleList.get(position);
+   }
 
    @Override
    public void onDestroy() {
       //mActivity.unregisterReceiver(receiver);
+      Log.d(TAG, "onDestroy: ");
       super.onDestroy();
    }
 
-   private class UpdateSchedulesBroadcastReceiver extends BroadcastReceiver {
-      @Override
-      public void onReceive(Context context, Intent intent) {
-         Log.d(TAG, "onReceive: " + intent.getAction());
-         if(intent.getAction().equals(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES)) {
-            Log.d(TAG, "onReceive: changing");
-            mScheduleAdapter.updateAllScheduleData(scheduleList);
-         }
-      }
+   @Override
+   public void onAttach(Context context) {
+      Log.d(TAG, "onAttach: ");
+      super.onAttach(context);
    }
 
-   public static Schedule getScheduleByPosition(int position) {
-      return scheduleList.get(position);
+   @Override
+   public void onCreate(@Nullable Bundle savedInstanceState) {
+      Log.d(TAG, "onCreate: ");
+      super.onCreate(savedInstanceState);
+   }
+
+   @Override
+   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+      Log.d(TAG, "onActivityCreated: ");
+      super.onActivityCreated(savedInstanceState);
+   }
+
+   @Override
+   public void onResume() {
+      Log.d(TAG, "onResume: ");
+      super.onResume();
+   }
+
+   @Override
+   public void onPause() {
+      Log.d(TAG, "onPause: ");
+      super.onPause();
+   }
+
+   @Override
+   public void onStop() {
+      Log.d(TAG, "onStop: ");
+      super.onStop();
+   }
+
+   @Override
+   public void onDestroyView() {
+      Log.d(TAG, "onDestroyView: ");
+      super.onDestroyView();
+   }
+
+   @Override
+   public void onDetach() {
+      Log.d(TAG, "onDetach: ");
+      super.onDetach();
    }
 }

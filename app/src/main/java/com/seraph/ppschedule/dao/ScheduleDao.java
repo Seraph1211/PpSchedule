@@ -28,7 +28,20 @@ public class ScheduleDao {
     }
 
     public boolean updateSchedule(Schedule schedule) {
-        return schedule.save();
+        if(schedule != null) {
+            Schedule data = LitePal.find(Schedule.class, schedule.getId());
+            data.setId(schedule.getId());
+            data.setTitle(schedule.getTitle());
+            data.setDesc(schedule.getDesc());
+            data.setYear(schedule.getYear());
+            data.setMonth(schedule.getMonth());
+            data.setDay(schedule.getDay());
+            data.setTime(schedule.getTime());
+            data.setFinish(schedule.isFinish());
+            return data.save();
+        }
+
+        return false;
     }
 
 
