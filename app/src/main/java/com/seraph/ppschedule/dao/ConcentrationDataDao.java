@@ -29,28 +29,27 @@ public class ConcentrationDataDao {
     * 获取某一天的专注时长
     * @param year
     * @param month
-    * @param date
+    * @param day
     * @return
     */
-   public int getDurationOfDate(int year, int month, int date) {
+   public int getDurationOfDate(int year, int month, int day) {
       List<ConcentrationData> res = LitePal.findAll(ConcentrationData.class);
       if(res.size() == 0) {
          return 0;
       }
 
-      int duration = 0;
       Iterator<ConcentrationData> iterator = res.iterator();
       ConcentrationData data;
       while(iterator.hasNext()) {
          data = iterator.next();
-         if(data.getDate().get(Calendar.YEAR) == year
-         && data.getDate().get(Calendar.MONTH) == month
-         && data.getDate().get(Calendar.DATE) == date) {
-            duration += data.getConcentrationDuration();
+         if(data.getYear() == year
+         && data.getMonth() == month
+         && data.getDay() == day) {
+            return data.getConcentrationDuration();
          }
       }
 
-      return duration;
+      return 0;
    }
 
    /**
@@ -70,8 +69,8 @@ public class ConcentrationDataDao {
       ConcentrationData data;
       while(iterator.hasNext()) {
          data = iterator.next();
-         if(data.getDate().get(Calendar.YEAR) == year
-                 && data.getDate().get(Calendar.MONTH) == month) {
+         if(data.getYear() == year
+                 && data.getMonth() == month) {
             duration += data.getConcentrationDuration();
          }
       }
@@ -95,7 +94,7 @@ public class ConcentrationDataDao {
       ConcentrationData data;
       while(iterator.hasNext()) {
          data = iterator.next();
-         if(data.getDate().get(Calendar.YEAR) == year) {
+         if(data.getYear() == year) {
             duration += data.getConcentrationDuration();
          }
       }
@@ -110,8 +109,9 @@ public class ConcentrationDataDao {
     */
    public boolean updateDuration(ConcentrationData concentrationData, int time) {
       if(concentrationData != null && time > 0) {
-         concentrationData.setConcentrationDuration(concentrationData.getConcentrationDuration() + time);
-         return true;
+         ConcentrationData data = LitePal.find(ConcentrationData.class, concentrationData.getId());
+         data.setConcentrationDuration(concentrationData.getConcentrationDuration() + time);
+         return data.save();
       }
 
       return false;

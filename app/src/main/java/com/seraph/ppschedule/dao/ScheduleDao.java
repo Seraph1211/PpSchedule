@@ -44,7 +44,6 @@ public class ScheduleDao {
         return false;
     }
 
-
     /**
      * 根据id删除Schedule
      * @param id
@@ -82,6 +81,10 @@ public class ScheduleDao {
             return schedule.save();
         }
         return false;
+    }
+
+    public Schedule findScheduleById(long id) {
+        return LitePal.find(Schedule.class, id);
     }
 
     public List<Schedule> findAllSchedule() {

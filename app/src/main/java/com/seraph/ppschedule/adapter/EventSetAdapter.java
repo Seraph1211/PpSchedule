@@ -149,8 +149,7 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onClick(View v) {
                 Log.d(TAG, "onClick: " + "[id=" + schedule.getId() + ", isFinish=" + schedule.isFinish() + ", title=" + schedule.getTitle() + "]");
                 mContext.startActivity(new Intent(mContext, ScheduleDetailActivity.class)
-                        //.putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
-                        .putExtra(ScheduleDetailActivity.SCHEDULE_POSITION, i)
+                        .putExtra(ScheduleDetailActivity.SCHEDULE_ID, schedule.getId())
                         .putExtra(ScheduleDetailActivity.CALENDAR_POSITION, -1)
                         .putExtra(ScheduleDetailActivity.TOOLBAR_TITLE, "收集箱"));
             }

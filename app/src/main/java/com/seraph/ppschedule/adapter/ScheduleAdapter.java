@@ -144,8 +144,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Log.d(TAG, "onClick: " + "[id=" + schedule.getId() + ", isFinish=" + schedule.isFinish() + ", title=" + schedule.getTitle() + "]");
 
                 mContext.startActivity(new Intent(mContext, ScheduleDetailActivity.class)
-                        //.putExtra(ScheduleDetailActivity.SCHEDULE_OBJ, schedule)
-                        .putExtra(ScheduleDetailActivity.SCHEDULE_POSITION, i)
+                        .putExtra(ScheduleDetailActivity.SCHEDULE_ID, schedule.getId())
                         .putExtra(ScheduleDetailActivity.CALENDAR_POSITION, mFragment.getCurrentCalendarPosition())
                         .putExtra(ScheduleDetailActivity.TOOLBAR_TITLE, "日程"));
             }

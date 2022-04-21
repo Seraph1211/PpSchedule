@@ -57,11 +57,9 @@ public class ScheduleFragment extends BaseFragment
    private RelativeLayout rLNoTask;  //当天用户无任务时的展示控件
    private EditText etInputContent;  //底部输入框
 
-   private static List<Schedule> scheduleList = new ArrayList<>();
+   private List<Schedule> scheduleList = new ArrayList<>();
    private int mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay;   //当前被选中的日期数据
    private long mTime;
-
-   //private UpdateSchedulesBroadcastReceiver receiver;
 
    public static ScheduleFragment getInstance() {
       return new ScheduleFragment();
@@ -107,15 +105,6 @@ public class ScheduleFragment extends BaseFragment
       mScheduleAdapter = new ScheduleAdapter(mActivity, this, scheduleList, rvScheduleList);
       rvScheduleList.setAdapter(mScheduleAdapter);
    }
-
-//   private void initBroadcastReceiver() {
-//      if (receiver == null) {
-//         receiver = new UpdateSchedulesBroadcastReceiver();
-//         IntentFilter filter = new IntentFilter();
-//         filter.addAction(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES);
-//         mActivity.registerReceiver(receiver, filter);
-//      }
-//   }
 
    /**
     * 从DB中加载Schedule数据
@@ -296,21 +285,6 @@ public class ScheduleFragment extends BaseFragment
    @Override
    public int getCurrentCalendarPosition() {
       return slSchedule.getMonthCalendar().getCurrentItem();
-   }
-
-//   private class UpdateSchedulesBroadcastReceiver extends BroadcastReceiver {
-//      @Override
-//      public void onReceive(Context context, Intent intent) {
-//         Log.d(TAG, "onReceive: " + intent.getAction());
-//         if(intent.getAction().equals(ScheduleDetailActivity.ACTION_UPDATE_SCHEDULES)) {
-//            Log.d(TAG, "onReceive: changing");
-//            mScheduleAdapter.updateAllScheduleData(scheduleList);
-//         }
-//      }
-//   }
-
-   public static Schedule getScheduleByPosition(int position) {
-      return scheduleList.get(position);
    }
 
    @Override
