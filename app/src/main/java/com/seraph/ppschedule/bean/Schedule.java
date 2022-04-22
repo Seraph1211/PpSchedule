@@ -23,7 +23,7 @@ public class Schedule extends LitePalSupport implements Serializable {
     private boolean isFinish;  //完成标记
     private long time;  //HH:mm
     private int year;
-    private int month;
+    private int month;  //比实际月份小1
     private int day;
 
     public long getId() {

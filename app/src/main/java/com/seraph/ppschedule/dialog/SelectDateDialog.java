@@ -142,7 +142,7 @@ public class SelectDateDialog extends Dialog implements View.OnClickListener, On
                 Matcher timeFormat1 = timePattern1.matcher(text);
                 Matcher timeFormat2 = timePattern2.matcher(text);
                 if (timeFormat1.matches() || timeFormat2.matches()) {
-                    time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay, text),
+                    time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", mCurrentSelectYear, mCurrentSelectMonth + 1, mCurrentSelectDay, text),
                             "yyyy-MM-dd HH:mm");
                 } else {
                     Pattern hourPattern1 = Pattern.compile("[0-9][0-9]");
@@ -150,7 +150,7 @@ public class SelectDateDialog extends Dialog implements View.OnClickListener, On
                     Matcher hourFormat1 = hourPattern1.matcher(text);
                     Matcher hourFormat2 = hourPattern2.matcher(text);
                     if (hourFormat1.matches() || hourFormat2.matches()) {
-                        time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay, text),
+                        time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", mCurrentSelectYear, mCurrentSelectMonth + 1, mCurrentSelectDay, text),
                                 "yyyy-MM-dd HH");
                     } else {
                         time = 0;
