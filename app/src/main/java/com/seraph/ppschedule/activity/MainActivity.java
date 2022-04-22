@@ -1,9 +1,22 @@
 package com.seraph.ppschedule.activity;
 
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,13 +29,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seraph.ppschedule.R;
+import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.fragment.EventSetFragment;
 import com.seraph.ppschedule.fragment.ScheduleFragment;
+import com.seraph.ppschedule.service.AlarmService;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
+    public static final String ACTION_ALARM_NOTIFICATION = "action.alarm.notification";
 
     private DrawerLayout mDrawer;
     private ImageButton btnMenu;
@@ -43,6 +60,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ScheduleFragment mScheduleFragment;
     private EventSetFragment mEventSetFragment;
 
+    private AlarmBroadcastReceiver receiver;
+    private static AlarmService.AlarmBinder alarmBinder;
+    ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            alarmBinder = (AlarmService.AlarmBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initView();
         initData();
+        initBroadcastReceiver();
+        initService();
         gotoScheduleFragment();
-
     }
 
     private void initView() {
@@ -77,6 +109,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initData() {
 
+    }
+
+    /**
+     * 初始化AlarmService
+     */
+    public void initService(){
+        Intent bindIntent = new Intent(MainActivity.this, AlarmService.class);
+        bindService(bindIntent, connection, BIND_AUTO_CREATE);
+        startService(bindIntent);
+    }
+
+    /**
+     * 初始化BroadcastReceiver
+     */
+    private void initBroadcastReceiver() {
+        receiver = new AlarmBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MainActivity.ACTION_ALARM_NOTIFICATION);
+        registerReceiver(receiver, filter);
     }
 
     @Override
@@ -177,4 +228,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawer.closeDrawer(Gravity.START);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);  //注销广播接收器
+    }
+
+    /**
+     * 设置通知提醒用户
+     * @param context
+     * @param id
+     */
+    public void showNotification(Context context, long id) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(context, ScheduleDetailActivity.class);
+        intent.putExtra(ScheduleDetailActivity.SCHEDULE_ID, id);
+        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "default";
+            String channelName = "默认通知";
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH));
+        }
+
+        Schedule schedule = ScheduleDao.getInstance().findScheduleById(id);
+        String affair = (schedule == null) ? "" : schedule.getTitle();
+
+        Notification notification = new NotificationCompat.Builder(context, "default")
+                .setContentText(affair)
+                .setContentTitle("便签提醒")
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .build();
+        notificationManager.notify(1, notification);
+    }
+
+    /**
+     * 用于实现到点提醒的广播接收器
+     */
+    public class AlarmBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long id = intent.getLongExtra(ScheduleDetailActivity.SCHEDULE_ID, -1);
+            showNotification(MainActivity.this, id);
+
+        }
+    }
+
+    public static AlarmService.AlarmBinder getAlarmBinder() {
+        return alarmBinder;
+    }
 }

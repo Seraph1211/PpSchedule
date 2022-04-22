@@ -24,7 +24,6 @@ import com.seraph.ppschedule.utils.StatusBarUtils;
 import java.util.Calendar;
 import java.util.Date;
 
-// TODO: 2022/4/15 在DetailActivity中完成变更后直接更新DB，从DetailActivity返回Frag的时候，读DB更新数据
 public class ScheduleDetailActivity extends AppCompatActivity implements SelectDateDialog.OnSelectDateListener {
     public static final String SCHEDULE_ID = "schedule_id";
     public static final String TOOLBAR_TITLE = "toolbar_title";
@@ -165,12 +164,41 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
     @Override
     public void onSelectDate(int year, int month, int day, long time, int position) {
+        long oldTime = mSchedule.getTime();  //用于判断该任务之前是否已设置提醒（为0则说明之前没设置提醒）
+
+        Log.d(TAG, "onSelectDate: " + year + "/" + month + "/" + day);
+        Log.d(TAG, "onSelectDate: time=" + DateUtils.timeStamp2Date(time, "yyyy/MM/dd HH:mm:ss"));
+
         mSchedule.setYear(year);
         mSchedule.setMonth(month);
         mSchedule.setDay(day);
         mSchedule.setTime(time);
         ScheduleDao.getInstance().updateSchedule(mSchedule);
         resetDateUi();
+
+        //设置提醒任务
+        if(oldTime == 0) {
+            if(time == 0) {
+                //do nothing
+            } else {
+                if(time < Calendar.getInstance().getTimeInMillis()) {
+                    MainActivity.getAlarmBinder().cancelAlarm(mSchedule.getId());
+                } else {
+                    MainActivity.getAlarmBinder().addAlarm(mSchedule.getId(), time);
+                }
+            }
+        } else {
+            if(time == 0) {
+                MainActivity.getAlarmBinder().cancelAlarm(mSchedule.getId());
+            } else {
+                if(time < Calendar.getInstance().getTimeInMillis()) {
+                    MainActivity.getAlarmBinder().cancelAlarm(mSchedule.getId());
+                } else {
+                    MainActivity.getAlarmBinder().addAlarm(mSchedule.getId(), time);
+                }
+            }
+        }
+
     }
 
     private void resetDateUi() {

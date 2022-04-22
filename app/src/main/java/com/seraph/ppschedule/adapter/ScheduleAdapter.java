@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seraph.ppschedule.R;
+import com.seraph.ppschedule.activity.MainActivity;
 import com.seraph.ppschedule.activity.ScheduleDetailActivity;
 import com.seraph.ppschedule.bean.Schedule;
 import com.seraph.ppschedule.dao.ScheduleDao;
@@ -25,6 +26,7 @@ import com.seraph.ppschedule.fragment.BaseFragment;
 import com.seraph.ppschedule.fragment.EventSetFragment;
 import com.seraph.ppschedule.utils.DateUtils;
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -228,13 +230,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void insertItem(Schedule schedule) {
         while(!mRv.isComputingLayout() && mRv.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
             mSchedules.add(schedule);
-            //ScheduleDao.getInstance().addSchedule(schedule.getTitle(), schedule.getDesc(), schedule.getDate(), schedule.getTime());
-            Log.d(TAG, "insertItem: scheduleBefore=" + schedule.toString());
             ScheduleDao.getInstance().addSchedule(schedule);
-            Log.d(TAG, "insertItem: scheduleAfter=" + schedule.toString());
-            Log.d(TAG, "insertItem: list=" + ScheduleDao.getInstance().findAllSchedule().toString());
+            long cTime = Calendar.getInstance().getTimeInMillis();
+            Log.d(TAG, "insertItem: currentMillis=" + cTime + " " + DateUtils.timeStamp2Date(cTime, "yyyy/MM/dd HH:mm:ss"));
+            Log.d(TAG, "insertItem: time=" + schedule.getTime() + " " + DateUtils.timeStamp2Date(schedule.getTime(), "yyyy/MM/dd HH:mm:ss"));
+            Log.d(TAG, "insertItem: currentMillis - time = "
+                    + (Calendar.getInstance().getTimeInMillis()-schedule.getTime()));
+            if(Calendar.getInstance().getTimeInMillis() < schedule.getTime()) {
+                Log.d(TAG, "insertItem: execute!");
+                //如果当前时间小于设定时间，则添加提醒任务（已考虑到Schedule.time为0的情况）
+                MainActivity.getAlarmBinder().addAlarm(schedule.getId(), schedule.getTime());
+            }
             mCheckState.put(mSchedules.size(), schedule.isFinish());
-            //Log.d(TAG, "insertItem: mCheckState=" + mCheckState.toString());
             notifyItemInserted(mSchedules.size() - 1);
             notifyDataSetChanged();
             mFragment.resetVisibilityOfNoTaskView();

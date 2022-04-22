@@ -277,6 +277,7 @@ public class ScheduleFragment extends BaseFragment
          }
       }, 100);
       mTime = time;
+      Log.d(TAG, "onSelectDate: " + year + "/" + month + "/" + day);
       Log.d(TAG, "onSelectDate: mTime=" + mTime);
       Log.d(TAG, "onSelectDate: mTime=" + DateUtils.timeStamp2Date(mTime, null));
       Log.d(TAG, "onSelectDate: selectDate=" + mCurrentSelectYear + "/" + mCurrentSelectMonth + "/" + mCurrentSelectDay);
