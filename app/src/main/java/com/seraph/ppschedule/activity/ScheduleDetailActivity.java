@@ -203,7 +203,7 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
 
     private void resetDateUi() {
         if(mSchedule.getTime() == 0) {
-            tvDate.setText(mSchedule.getYear() + "/" + mSchedule.getMonth() + "/" + mSchedule.getDay());
+            tvDate.setText(mSchedule.getYear() + "/" + (mSchedule.getMonth() + 1) + "/" + mSchedule.getDay());
         } else {
             tvDate.setText(DateUtils.timeStamp2Date(mSchedule.getTime(), null));
         }

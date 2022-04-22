@@ -98,7 +98,7 @@ public class EventSetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
         if(schedule.getYear() != 0 && schedule.getMonth() != 0 && schedule.getDay() != 0) {
-            eventViewHolder.tvEventTime.setText(schedule.getYear() + "/" + schedule.getMonth() + "/" + schedule.getDay());
+            eventViewHolder.tvEventTime.setText(schedule.getYear() + "/" + (schedule.getMonth() + 1) + "/" + schedule.getDay());
         } else {
             eventViewHolder.tvEventTime.setText("");
         }
