@@ -40,6 +40,8 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     public static final String ACTION_ALARM_NOTIFICATION = "action.alarm.notification";
+    public static final int ID_NOTIFICATION_ALL = 1;
+    public static final int ID_NOTIFICATION_SINGLE = 2;
 
     private DrawerLayout mDrawer;
     private ImageButton btnMenu;
@@ -84,6 +86,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initBroadcastReceiver();
         initService();
         gotoScheduleFragment();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(ID_NOTIFICATION_ALL);
+        nm.cancel(ID_NOTIFICATION_SINGLE);
     }
 
     private void initView() {
@@ -264,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setContentIntent(pi)
                 .setAutoCancel(true)
                 .build();
-        notificationManager.notify(1, notification);
+        notificationManager.notify(MainActivity.ID_NOTIFICATION_SINGLE, notification);
     }
 
     /**

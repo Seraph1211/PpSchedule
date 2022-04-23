@@ -1,17 +1,29 @@
 package com.seraph.ppschedule.service;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.activity.MainActivity;
 import com.seraph.ppschedule.activity.ScheduleDetailActivity;
+import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dao.ScheduleDao;
+import com.seraph.ppschedule.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AlarmService extends Service {
@@ -31,7 +43,6 @@ public class AlarmService extends Service {
         return binder;
     }
 
-
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate: ");
@@ -42,6 +53,9 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: ");
+
+        remindAllScheduleOfToady();
+
         return START_REDELIVER_INTENT;
     }
 
@@ -51,6 +65,76 @@ public class AlarmService extends Service {
         super.onDestroy();
     }
 
+    public List<Schedule> getUndoListOfDate(int year, int month, int day) {
+        List<Schedule> res = ScheduleDao.getInstance().findScheduleByDate(year, month, day);
+
+        for(int i=0; i < res.size(); i++) {
+            if(res.get(i).isFinish()) {
+                res.remove(i);
+            }
+        }
+
+        return res;
+    }
+
+    public void remindAllScheduleOfToady() {
+        Calendar calendar = Calendar.getInstance();
+
+        List<Schedule> res = getUndoListOfDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        if(res.size() != 0) {
+            showNotification(AlarmService.this, res);
+        }
+
+        //设置定时任务，明天8点唤醒Service提醒用户
+        //获取第二天早上八点的绝对时间
+        long time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH), "08:00"),
+                "yyyy-MM-dd HH:mm");
+
+
+        long t = calendar.getTimeInMillis() - time;
+        Intent i = new Intent(this, AlarmService.class);
+        PendingIntent pi = PendingIntent.getService(this, Integer.MAX_VALUE, i, 0);
+        am.set(AlarmManager.RTC_WAKEUP, t, pi);
+    }
+
+    /**
+     * 在通知栏提醒用户某天的全部任务
+     * @param context
+     * @param list
+     */
+    public void showNotification(Context context, List<Schedule> list) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "default";
+            String channelName = "默认通知";
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH));
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i < list.size(); i++) {
+            sb.append(list.get(i).getTitle());
+            if(i != list.size() -1) {
+                sb.append("\n");
+            }
+        }
+        String affair = sb.toString();
+
+        Notification notification = new NotificationCompat.Builder(context, "default")
+                .setContentTitle("便签提醒")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(affair))
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .build();
+        notificationManager.notify(MainActivity.ID_NOTIFICATION_ALL, notification);
+    }
 
     public class AlarmBinder extends Binder {
         /**
