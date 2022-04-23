@@ -79,17 +79,22 @@ public class AlarmService extends Service {
 
     public void remindAllScheduleOfToady() {
         Calendar calendar = Calendar.getInstance();
+        //获取今天八点的绝对时间
+        long time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), "08:00"),
+                "yyyy-MM-dd HH:mm");
 
-        List<Schedule> res = getUndoListOfDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        if(res.size() != 0) {
-            showNotification(AlarmService.this, res);
+        if(calendar.getTimeInMillis() <= time) {
+            //如果当前绝对时间小于等于当天八点的绝对时间
+            List<Schedule> res = getUndoListOfDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            if(res.size() != 0) {
+                showNotification(AlarmService.this, res);
+            }
         }
 
         //设置定时任务，明天8点唤醒Service提醒用户
         //获取第二天早上八点的绝对时间
-        long time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH), "08:00"),
+        time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH), "08:00"),
                 "yyyy-MM-dd HH:mm");
-
 
         long t = calendar.getTimeInMillis() - time;
         Intent i = new Intent(this, AlarmService.class);
