@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_circle_gray.xml" value="0.264" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_corner_white.xml" value="0.143" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_event_item.xml" value="0.139" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_event_item_normal.xml" value="0.139" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_event_item_press.xml" value="0.139" />
@@ -25,6 +26,7 @@
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_schedule_detail.xml" value="0.2390625" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_schedule_detail_fake.xml" value="0.2513586956521739" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/activity_tomato_clock.xml" value="0.2513586956521739" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/dialog_confirm.xml" value="0.264" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/dialog_select_date.xml" value="0.1125" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/fragment_eventset.xml" value="0.264" />

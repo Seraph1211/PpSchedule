@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //菜单options数据控件
     private LinearLayout llMenuSchedule;
     private LinearLayout llMenuEvent;
+    private LinearLayout llMenuTomato;
 
     //标题栏当前被选中日期数据展示控件
     private LinearLayout llTitleDate;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnMenu = findViewById(R.id.btnMenu);
         llMenuSchedule = findViewById(R.id.llMenuSchedule);
         llMenuEvent = findViewById(R.id.llMenuEvent);
+        llMenuTomato = findViewById(R.id.llMenuTomato);
         llTitleDate = findViewById(R.id.llTitleDate);
         tvTitleMonth = findViewById(R.id.tvTitleMonth);
         tvTitleDay = findViewById(R.id.tvTitleDay);
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnMenu.setOnClickListener(this);
         llMenuEvent.setOnClickListener(this);
         llMenuSchedule.setOnClickListener(this);
+        llMenuTomato.setOnClickListener(this);
 
         mMonthText = getResources().getStringArray(R.array.calendar_month);  //获取月份字符串数组
         llTitleDate.setVisibility(View.VISIBLE);
@@ -156,6 +159,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.llMenuEvent:
                 gotoEventSetFragment();
                 Toast.makeText(this, "Event option is clicked !", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.llMenuTomato:
+                Toast.makeText(this, "Tomato option is clicked !", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, TomatoClockActivity.class));
                 break;
         }
     }
