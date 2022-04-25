@@ -4,6 +4,8 @@ import com.seraph.ppschedule.bean.ConcentrationData;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +31,99 @@ public class ConcentrationDataDao {
     */
    public List<ConcentrationData> getAllData() {
       return LitePal.findAll(ConcentrationData.class);
+   }
+
+   /**
+    * 获取某一周的专注数据
+    * @param year
+    * @param month
+    * @param day
+    * @return
+    */
+   public List<ConcentrationData> getDataOfWeek(int year, int month, int day) {
+      Calendar fromDate = Calendar.getInstance();
+      fromDate.set(year, month, day);
+      fromDate.set(Calendar.DAY_OF_WEEK, 1);
+      fromDate.set(fromDate.get(Calendar.YEAR), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+
+      Calendar toDate = Calendar.getInstance();
+      toDate.set(year, month, day + 1, 0, 0, 0);
+
+      List<ConcentrationData> res = LitePal.findAll(ConcentrationData.class);
+      List<ConcentrationData> list = new ArrayList<>();
+      Iterator<ConcentrationData> iterator = res.iterator();
+      ConcentrationData data;
+      Calendar calendar = Calendar.getInstance();
+      while (iterator.hasNext()) {
+         data = iterator.next();
+         calendar.set(data.getYear(), data.getMonth(), data.getDay(), 0, 0, 0);
+
+         if(calendar.compareTo(fromDate) > 0 && calendar.compareTo(toDate) < 0) {
+            list.add(data);
+         }
+      }
+
+      return list;
+   }
+
+   /**
+    * 获取某个月的专注数据
+    * @param year
+    * @param month
+    * @return
+    */
+   public List<ConcentrationData> getDataOfMonth(int year, int month) {
+      List<ConcentrationData> res = LitePal.findAll(ConcentrationData.class);
+
+      Iterator<ConcentrationData> iterator = res.iterator();
+      ConcentrationData data;
+      List<ConcentrationData> removedItems = new ArrayList<>();
+      while(iterator.hasNext()) {
+         data = iterator.next();
+         if(!(data.getYear() == year
+                 && data.getMonth() == month)) {
+            removedItems.add(data);
+            //res.remove(data);
+         }
+      }
+
+      res.removeAll(removedItems);
+
+      return res;
+
+   }
+
+   /**
+    * 获取指定日期所属那一周的专注总时长
+    * @param year
+    * @param month
+    * @param day
+    * @return
+    */
+   public long getDurationOfWeek(int year, int month, int day) {
+      Calendar fromDate = Calendar.getInstance();
+      fromDate.set(year, month, day);
+      fromDate.set(Calendar.DAY_OF_WEEK, 1);
+      fromDate.set(fromDate.get(Calendar.YEAR), fromDate.get(Calendar.MONTH), fromDate.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+
+      Calendar toDate = Calendar.getInstance();
+      toDate.set(year, month, day + 1, 0, 0, 0);
+
+      List<ConcentrationData> res = LitePal.findAll(ConcentrationData.class);
+      Iterator<ConcentrationData> iterator = res.iterator();
+      ConcentrationData data;
+      Calendar calendar = Calendar.getInstance();
+      long duration = 0;
+      while (iterator.hasNext()) {
+         data = iterator.next();
+         calendar.set(data.getYear(), data.getMonth(), data.getDay(), 0, 0, 0);
+
+         if(calendar.compareTo(fromDate) > 0 && calendar.compareTo(toDate) < 0) {
+            duration += data.getDuration();
+         }
+      }
+
+      return duration;
    }
 
    /**
@@ -89,7 +184,7 @@ public class ConcentrationDataDao {
     * @param year
     * @return
     */
-   public int getDurationOfMonth(int year) {
+   public int getDurationOfYear(int year) {
       List<ConcentrationData> res = LitePal.findAll(ConcentrationData.class);
       if(res.size() == 0) {
          return 0;

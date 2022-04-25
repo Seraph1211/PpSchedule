@@ -27,6 +27,7 @@ dependencies {
 
     implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3' //引入修改状态栏颜色相关工具的依赖
     implementation 'org.litepal.guolindev:core:3.2.3'  //引入对LitePal的依赖
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'  //引入对HelloCharts的依赖
     //引入对calendar库的依赖，用以实现日历相关功能
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':calendar')

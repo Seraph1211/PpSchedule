@@ -54,4 +54,6 @@
 
     <dimen name="shadow_padding">1dp</dimen>
 
+    <dimen name="charts_data_size">30sp</dimen>
+
 </resources>

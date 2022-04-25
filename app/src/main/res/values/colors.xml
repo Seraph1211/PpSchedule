@@ -62,5 +62,7 @@
     <color name="color_black">#F8000000</color>
     <color name="color_blue">#1F55F8</color>
 
+    <color name="color_select_chart">#3F59E2</color>
+    <color name="color_normal_chart">#AAA9A9</color>
 
 </resources>

@@ -39,6 +39,7 @@
     <string name="menu_schedule">Schedule</string>
     <string name="menu_event_set">Events</string>
     <string name="menu_tomato">Tomato Clock</string>
+    <string name="menu_charts">Charts</string>
     <string name="menu_add_event_set">Add event list</string>
     <string name="menu_no_category">Unclassified </string>
 

@@ -1,7 +1,5 @@
 package com.seraph.ppschedule.dao;
 
-import android.util.Log;
-
 import com.seraph.ppschedule.bean.Schedule;
 
 import org.litepal.LitePal;
@@ -81,6 +79,113 @@ public class ScheduleDao {
             return schedule.save();
         }
         return false;
+    }
+
+
+    public List<Schedule> findScheduleOfOneWeekRelatedToState(int year, int month, int day, boolean state) {
+        //筛选指定日期区间内的数据
+        List<Schedule> res = findScheduleOfOneWeek(year, month, day);
+
+        //筛选指定状态的数据
+        Iterator<Schedule> iterator = res.iterator();
+        List<Schedule> removedItems = new ArrayList<>();
+        Schedule schedule;
+        while (iterator.hasNext()) {
+            schedule = iterator.next();
+            if(schedule.isFinish() != state) {
+                removedItems.add(schedule);
+                //res.remove(schedule);
+            }
+        }
+
+        res.removeAll(removedItems);
+
+        return res;
+    }
+
+    /**
+     * 获取目标日期所属那一周的全部Schedule
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
+    public List<Schedule> findScheduleOfOneWeek(int year, int month, int day) {
+        Calendar firstDayOfWeek = Calendar.getInstance();
+        firstDayOfWeek.set(year, month, day);
+        firstDayOfWeek.set(Calendar.DAY_OF_WEEK, 1);
+
+        return findScheduleBetweenDateSection(firstDayOfWeek.get(Calendar.YEAR), firstDayOfWeek.get(Calendar.MONTH), firstDayOfWeek.get(Calendar.DAY_OF_MONTH),
+                year, month, day);
+    }
+
+    /**
+     * 获得两个日期区间之内的全部Schedule
+     * @param fromYear
+     * @param fromMonth
+     * @param fromDay
+     * @param toYear
+     * @param toMonth
+     * @param toDay
+     * @return
+     */
+    public List<Schedule> findScheduleBetweenDateSection(int fromYear, int fromMonth, int fromDay,
+                                                         int toYear, int toMonth, int toDay) {
+
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.set(fromYear, fromMonth, fromDay, 0, 0, 0);
+
+        Calendar toCalendar = Calendar.getInstance();
+        toCalendar.set(toYear, toMonth, toDay, 23, 59, 59);
+
+        List<Schedule> res = LitePal.findAll(Schedule.class);
+        Iterator<Schedule> iterator = res.iterator();
+        Schedule schedule;
+        Calendar calendar = Calendar.getInstance();
+        //筛选指定日期区间内的数据
+        List<Schedule> removedItems = new ArrayList<>();
+        while (iterator.hasNext()) {
+            schedule = iterator.next();
+            calendar.set(schedule.getYear(), schedule.getMonth(), schedule.getDay(), 0, 0, 0);
+
+            if(calendar.compareTo(fromCalendar) < 0 || calendar.compareTo(toCalendar) > 0) {
+                removedItems.add(schedule);
+                //res.remove(schedule);
+            }
+        }
+        res.removeAll(removedItems);
+
+        return res;
+    }
+
+    /**
+     * 返回指定日期区间和完成状态的Schedule
+     * @param fromYear
+     * @param fromMonth
+     * @param fromDay
+     * @param toYear
+     * @param toMonth
+     * @param toDay
+     * @param isFinish
+     * @return
+     */
+    public List<Schedule> findScheduleByDateSectionAndState(int fromYear, int fromMonth, int fromDay,
+                                                            int toYear, int toMonth, int toDay,
+                                                            boolean isFinish) {
+        //筛选指定日期区间内的数据
+        List<Schedule> res = findScheduleBetweenDateSection(fromYear, fromMonth, fromDay, toYear, toMonth, toDay);
+
+        //筛选指定状态的数据
+        Iterator<Schedule> iterator = res.iterator();
+        Schedule schedule;
+        while (iterator.hasNext()) {
+            schedule = iterator.next();
+            if(schedule.isFinish() != isFinish) {
+                res.remove(schedule);
+            }
+        }
+
+        return res;
     }
 
     public Schedule findScheduleById(long id) {
