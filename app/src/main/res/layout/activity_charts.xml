@@ -31,6 +31,7 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
+        android:background="@color/colorBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -291,7 +292,10 @@
                     android:id="@+id/lineChartOfConcentrationTime"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_margin="10dp"
+                    android:layout_marginBottom="@dimen/space_10dp"
+                    android:layout_marginRight="@dimen/space_10dp"
+                    android:layout_marginTop="@dimen/space_10dp"
+                    android:layout_marginLeft="@dimen/space_10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 

@@ -3,6 +3,7 @@ package com.seraph.ppschedule.activity;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.seraph.ppschedule.R;
 import com.seraph.ppschedule.dao.ConcentrationDataDao;
 import com.seraph.ppschedule.dao.ScheduleDao;
+import com.seraph.ppschedule.utils.StatusBarUtils;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -72,11 +74,13 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
 
+        initStatusBar();
         initView();
     }
 
     @Override
     protected void onStart() {
+        Log.d(TAG, "onStart: ");
         super.onStart();
 
         initData();
@@ -121,6 +125,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
      * 该方法应该onStart()中调用
      */
     private void initData() {
+        Log.d(TAG, "initData: ");
         Calendar currentCalendar = Calendar.getInstance();
 
         countOfDoneForWeek = ScheduleDao
@@ -145,14 +150,14 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
 
         countOfDoneForMonth = ScheduleDao
                 .getInstance()
-                .findScheduleOfOneWeekRelatedToState(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), 1,
+                .findScheduleOfOneMonthRelatedToState(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH),
                         true)
                 .size();
         tvDoneCountOfMonth.setText(countOfDoneForMonth + "");  //更新TextView状态
 
         countOfUndoForMonth = ScheduleDao
                 .getInstance()
-                .findScheduleOfOneWeekRelatedToState(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), 1,
+                .findScheduleOfOneMonthRelatedToState(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH),
                         false)
                 .size();
         tvUndoCountOfMonth.setText(countOfUndoForMonth + "");  //更新TextView状态
@@ -183,7 +188,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
         //初始化月数据
         labelsOfMonth = new String[currentCalendar.get(Calendar.DAY_OF_MONTH)];
         scoresOfMonth = new float[currentCalendar.get(Calendar.DAY_OF_MONTH)];
-        for(int i=1; i <= dayOfWeek; i++) {
+        for(int i=1; i <= currentCalendar.get(Calendar.DAY_OF_MONTH); i++) {
             labelsOfMonth[i-1] = currentCalendar.get(Calendar.MONTH) + "-" + i;
             long duration = ConcentrationDataDao
                     .getInstance()
@@ -193,8 +198,21 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    /**
+     * 初始化状态栏
+     */
+    private void initStatusBar() {
+        StatusBarUtils.setStatusBarColor(this, R.color.colorWrite);  //设置状态栏颜色
+        StatusBarUtils.setLightStatusBar(ChartsActivity.this, true, true);  //状态栏字体颜色-黑
+    }
+
     //重置饼状图数据
     public void resetPieChart(float countOfDone, float countOfUndo){
+        //适配已完成任务数、未完成任务数均为0的情况
+        if(countOfDone == 0 && countOfUndo == 0) {
+            countOfDone = 1.0f;
+            countOfUndo = 1.0f;
+        }
 
         float[] pieValues = {countOfDone, countOfUndo};
 
@@ -206,6 +224,10 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
         NumberFormat numberFormat=NumberFormat.getPercentInstance();
         numberFormat.setMinimumFractionDigits(1);
 
+        //清除sliceValues中的旧数据
+        if(sliceValues.size() != 0) {
+            sliceValues.clear();
+        }
         //向sliceValues中填充数据
         for(int i=0; i<pieLabels.length; i++){
             String result=numberFormat.format(((double)pieValues[i])/((double)sum));
@@ -218,9 +240,9 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
         PieChartData pieChartData = new PieChartData(sliceValues);
         pieChartData.setHasLabels(true); //显示标签，默认不显示
         pieChartData.setHasLabelsOutside(true); //标签的显示位置在饼状图之外
-        pieChartData.setHasCenterCircle(true); //显示圆环状饼状图
-        pieChartData.setCenterText1("Comparison"); //设置中心圆中的文本
-        pieChartData.setCenterText2("专注度比较");
+//        pieChartData.setHasCenterCircle(true); //显示圆环状饼状图
+//        pieChartData.setCenterText1("Comparison"); //设置中心圆中的文本
+//        pieChartData.setCenterText2("专注度比较");
         pieChartData.setCenterText1FontSize(16);
         pieChartData.setCenterText1Color(Color.parseColor("#4876FF"));
         pieChartData.setCenterText2FontSize(12);

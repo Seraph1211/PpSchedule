@@ -81,6 +81,54 @@ public class ScheduleDao {
         return false;
     }
 
+    /**
+     * 根据完成状态返回某个月的Schedule
+     * @param year
+     * @param month
+     * @param state
+     * @return
+     */
+    public List<Schedule> findScheduleOfOneMonthRelatedToState(int year, int month, boolean state) {
+        List<Schedule> list = findScheduleOfOneMonth(year, month);
+        List<Schedule> res = new ArrayList<>();
+
+        Iterator<Schedule> iterator = list.iterator();
+        Schedule schedule;
+
+        while (iterator.hasNext()) {
+            schedule = iterator.next();
+
+            if(schedule.isFinish() == state) {
+                res.add(schedule);
+            }
+        }
+
+        return res;
+    }
+
+    /**
+     * 返回指定月份的Schedule
+     * @param year
+     * @param month
+     * @return
+     */
+    public List<Schedule> findScheduleOfOneMonth(int year, int month) {
+        List<Schedule> all = LitePal.findAll(Schedule.class);
+        List<Schedule> res = new ArrayList<>();
+
+        Iterator<Schedule> iterator = all.iterator();
+        Schedule schedule;
+
+        while (iterator.hasNext()) {
+            schedule = iterator.next();
+
+            if(schedule.getYear() == year && schedule.getMonth() == month) {
+                res.add(schedule);
+            }
+        }
+
+        return res;
+    }
 
     public List<Schedule> findScheduleOfOneWeekRelatedToState(int year, int month, int day, boolean state) {
         //筛选指定日期区间内的数据

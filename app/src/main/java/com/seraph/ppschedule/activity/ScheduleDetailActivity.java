@@ -48,16 +48,19 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        StatusBarUtils.setStatusBarColor(this, R.color.colorWrite);  //设置状态栏颜色
-        StatusBarUtils.setLightStatusBar(this, true, true);  //状态栏字体颜色-黑
-
         setContentView(R.layout.activity_schedule_detail);
 
-
-
+        initStatusBar();
         initData();
         initView();
+    }
+
+    /**
+     * 初始化状态栏
+     */
+    private void initStatusBar() {
+        StatusBarUtils.setStatusBarColor(this, R.color.colorWrite);  //设置状态栏颜色
+        StatusBarUtils.setLightStatusBar(this, true, true);  //状态栏字体颜色-黑
     }
 
     private void initData() {
