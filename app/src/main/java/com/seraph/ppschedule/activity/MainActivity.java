@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llMenuSchedule.setOnClickListener(this);
         llMenuTomato.setOnClickListener(this);
         llMenuCharts.setOnClickListener(this);
+        tvMainTitle.setOnClickListener(this);
 
         mMonthText = getResources().getStringArray(R.array.calendar_month);  //获取月份字符串数组
         llTitleDate.setVisibility(View.VISIBLE);
@@ -173,6 +174,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Charts option is clicked !", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, ChartsActivity.class));
                 break;
+
+            case R.id.tvMainTitle:
+                Log.d(TAG, "show Database:" + ScheduleDao.getInstance().findAllSchedule().toString());
         }
     }
 

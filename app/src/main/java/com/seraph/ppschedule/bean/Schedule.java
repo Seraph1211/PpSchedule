@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-// TODO: 2022/4/18 LitePal支持的数据类型有8种，分别为：int、short、long、float、double、boolean、String和Date。不支持Calendar! 
+//LitePal支持的数据类型有8种，分别为：int、short、long、float、double、boolean、String和Date。不支持Calendar!
 /**
  * 记录任务信息的实体类
  */

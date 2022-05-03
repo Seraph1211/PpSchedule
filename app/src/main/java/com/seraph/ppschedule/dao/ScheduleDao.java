@@ -250,7 +250,19 @@ public class ScheduleDao {
      * @return
      */
     public List<Schedule> findScheduleByFlag(boolean isFinish) {
-        return LitePal.where("isFinish = ?", String.valueOf(isFinish)).find(Schedule.class);
+        List<Schedule> list = findAllSchedule();
+
+        Iterator<Schedule> iterator = list.iterator();
+        Schedule schedule;
+        List<Schedule> res = new ArrayList<>();
+        while (iterator.hasNext()) {
+            schedule = iterator.next();
+            if(schedule.isFinish() == isFinish) {
+                res.add(schedule);
+            }
+        }
+
+        return res;
     }
 
     /**

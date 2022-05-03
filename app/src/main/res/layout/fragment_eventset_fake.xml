@@ -5,300 +5,292 @@
     android:background="@color/colorBackground"
     android:orientation="vertical">
 
-
     <LinearLayout
+        android:id="@+id/rlEventSetOfUndo"
+        android:background="@drawable/bg_white_corner"
+        android:layout_marginTop="@dimen/space_10dp"
+        android:layout_marginLeft="@dimen/space_10dp"
+        android:layout_marginRight="@dimen/space_10dp"
+        android:layout_marginBottom="@dimen/space_10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/rlEventSetOfUndo"
-            android:background="@drawable/bg_white_corner"
-            android:layout_marginTop="@dimen/space_10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3dp"
             android:layout_marginLeft="@dimen/space_10dp"
             android:layout_marginRight="@dimen/space_10dp"
-            android:layout_marginBottom="@dimen/space_10dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            android:background="@drawable/bg_event_item"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_3dp"
-                android:layout_marginLeft="@dimen/space_10dp"
+            <CheckBox
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
                 android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginTop="4dp"
-                android:elevation="0dp"
-                android:background="@drawable/bg_event_item"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/color_schedule_text"
+                android:text="完成答辩PPT" />
 
-                <CheckBox
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
-
-                <TextView
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/color_schedule_text"
-                    android:text="完成答辩PPT" />
-
-                <TextView
-                    android:layout_marginRight="4dp"
-                    android:text="2022/04/18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_3dp"
-                android:layout_marginLeft="@dimen/space_10dp"
-                android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginTop="4dp"
-                android:elevation="0dp"
-                android:background="@drawable/bg_event_item"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
-
-                <TextView
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/color_schedule_text"
-                    android:text="慢跑3公里" />
-
-                <TextView
-                    android:layout_marginRight="4dp"
-                    android:text="2022/04/18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_3dp"
-                android:layout_marginLeft="@dimen/space_10dp"
-                android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginTop="4dp"
-                android:elevation="0dp"
-                android:background="@drawable/bg_event_item"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
-
-                <TextView
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/color_schedule_text"
-                    android:text="喝杯牛奶" />
-
-                <TextView
-                    android:layout_marginRight="4dp"
-                    android:text="2022/04/17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_3dp"
-                android:layout_marginLeft="@dimen/space_10dp"
-                android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginTop="4dp"
-                android:elevation="0dp"
-                android:background="@drawable/bg_event_item"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
-
-                <TextView
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/color_schedule_text"
-                    android:text="去live house看演出" />
-
-                <TextView
-                    android:layout_marginRight="4dp"
-                    android:text="2022/04/16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
+            <TextView
+                android:layout_marginRight="4dp"
+                android:text="2022/04/18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llEventSetOfDone"
-            android:background="@drawable/bg_white_corner"
-            android:layout_marginTop="@dimen/space_10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3dp"
             android:layout_marginLeft="@dimen/space_10dp"
             android:layout_marginRight="@dimen/space_10dp"
-            android:layout_marginBottom="@dimen/space_10dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            android:background="@drawable/bg_event_item"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
 
             <TextView
-                android:text="已完成"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_16sp"
                 android:textColor="@color/color_schedule_text"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="@dimen/space_6dp"
-                android:layout_marginLeft="@dimen/space_10dp"
+                android:text="慢跑3公里" />
+
+            <TextView
+                android:layout_marginRight="4dp"
+                android:text="2022/04/18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_3dp"
-                android:layout_marginLeft="@dimen/space_10dp"
+        </LinearLayout>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            android:background="@drawable/bg_event_item"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
                 android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginTop="4dp"
-                android:elevation="0dp"
-                android:background="@drawable/bg_event_item"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/color_schedule_text"
+                android:text="喝杯牛奶" />
 
-                <CheckBox
-                    android:checked="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
+            <TextView
+                android:layout_marginRight="4dp"
+                android:text="2022/04/17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/color_schedule_finish_title_text"
-                    android:text="去西门拿快递" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_marginRight="4dp"
-                    android:text="2022/04/19"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            android:background="@drawable/bg_event_item"
+            android:orientation="horizontal">
 
-            </LinearLayout>
+            <CheckBox
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_3dp"
-                android:layout_marginLeft="@dimen/space_10dp"
+            <TextView
                 android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginTop="4dp"
-                android:elevation="0dp"
-                android:background="@drawable/bg_event_item"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/color_schedule_text"
+                android:text="去live house看演出" />
 
-                <CheckBox
-                    android:checked="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
+            <TextView
+                android:layout_marginRight="4dp"
+                android:text="2022/04/16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/color_schedule_finish_title_text"
-                    android:text="帮室友带饭" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_marginRight="4dp"
-                    android:text="2022/04/01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+    </LinearLayout>
 
-            </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llEventSetOfDone"
+        android:background="@drawable/bg_white_corner"
+        android:layout_marginTop="@dimen/space_10dp"
+        android:layout_marginLeft="@dimen/space_10dp"
+        android:layout_marginRight="@dimen/space_10dp"
+        android:layout_marginBottom="@dimen/space_10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/space_3dp"
-                android:layout_marginLeft="@dimen/space_10dp"
+        <TextView
+            android:text="已完成"
+            android:textColor="@color/color_schedule_text"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/space_6dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            android:background="@drawable/bg_event_item"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:checked="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
                 android:layout_marginRight="@dimen/space_10dp"
-                android:layout_marginTop="4dp"
-                android:elevation="0dp"
-                android:background="@drawable/bg_event_item"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/color_schedule_finish_title_text"
+                android:text="去西门拿快递" />
 
-                <CheckBox
-                    android:checked="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp" />
+            <TextView
+                android:layout_marginRight="4dp"
+                android:text="2022/04/19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:layout_marginRight="@dimen/space_10dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/color_schedule_finish_title_text"
-                    android:text="阅读一章《时间简史》" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_marginRight="4dp"
-                    android:text="2022/03/24"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            android:background="@drawable/bg_event_item"
+            android:orientation="horizontal">
 
-            </LinearLayout>
+            <CheckBox
+                android:checked="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/color_schedule_finish_title_text"
+                android:text="帮室友带饭" />
+
+            <TextView
+                android:layout_marginRight="4dp"
+                android:text="2022/04/01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/space_3dp"
+            android:layout_marginLeft="@dimen/space_10dp"
+            android:layout_marginRight="@dimen/space_10dp"
+            android:layout_marginTop="4dp"
+            android:elevation="0dp"
+            android:background="@drawable/bg_event_item"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:checked="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/color_schedule_finish_title_text"
+                android:text="阅读一章《时间简史》" />
+
+            <TextView
+                android:layout_marginRight="4dp"
+                android:text="2022/03/24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
