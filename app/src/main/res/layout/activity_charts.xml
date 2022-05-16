@@ -43,6 +43,7 @@
 
             <!--本周数据展示-->
             <LinearLayout
+                android:layout_marginTop="@dimen/space_10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -155,7 +156,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="本周未完成任务数"
+                        android:text="本月未完成任务数"
                         android:textSize="10dp"
                         android:textColor="#AAA9A9"
                         android:gravity="center"/>

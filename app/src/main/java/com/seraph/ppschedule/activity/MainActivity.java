@@ -34,6 +34,7 @@ import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.fragment.EventSetFragment;
 import com.seraph.ppschedule.fragment.ScheduleFragment;
 import com.seraph.ppschedule.service.AlarmService;
+import com.seraph.ppschedule.utils.StatusBarUtils;
 
 import java.util.Calendar;
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initStatusBar();
         initView();
         initData();
         initBroadcastReceiver();
@@ -146,6 +148,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         IntentFilter filter = new IntentFilter();
         filter.addAction(MainActivity.ACTION_ALARM_NOTIFICATION);
         registerReceiver(receiver, filter);
+    }
+
+    /**
+     * 初始化状态栏
+     */
+    private void initStatusBar() {
+        StatusBarUtils.transparencyBar(this);  //设为透明
+        StatusBarUtils.setLightStatusBar(this, false, true);  //状态栏字体颜色-黑
+
     }
 
     @Override

@@ -13,19 +13,22 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorWrite">
+        android:background="@color/colorWrite"
+        app:contentInsetStart="0dp">
+        <!--contentInsetStart属性用来控制toolbar的左边距-->
 
         <LinearLayout
             android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/space_10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageButton
                 android:id="@+id/btnBackOfDetail"
-                android:background="@drawable/ic_back_black"
-                android:layout_gravity="center_vertical"
                 android:layout_width="32dp"
-                android:layout_height="32dp"/>
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_back_black" />
 
             <TextView
                 android:id="@+id/tvDestinationOfBack"
@@ -39,6 +42,7 @@
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
+
 
     <LinearLayout
         android:layout_marginTop="@dimen/space_10dp"

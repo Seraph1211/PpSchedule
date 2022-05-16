@@ -8,6 +8,9 @@
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_event_item.xml" value="0.139" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_event_item_normal.xml" value="0.139" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_event_item_press.xml" value="0.139" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_menu_item.xml" value="0.143" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_menu_item_normal.xml" value="0.143" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_menu_item_press.xml" value="0.143" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item.xml" value="0.148" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item_normal.xml" value="0.148" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_schedule_item_press.xml" value="0.148" />
@@ -36,7 +39,7 @@
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/item_event.xml" value="0.264" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/item_schedule.xml" value="0.2" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_container.xml" value="0.2" />
-        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_menu.xml" value="0.22826086956521738" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_menu.xml" value="0.4" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/main_title_bar.xml" value="0.264" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/layout/plan_item.xml" value="0.25364583333333335" />
         <entry key="..\:/MyGitHouse/PpSchedule/calendar/src/main/res/layout/layout_schedule.xml" value="0.22826086956521738" />

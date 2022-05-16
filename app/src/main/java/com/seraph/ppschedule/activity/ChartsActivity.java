@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.seraph.ppschedule.R;
@@ -34,6 +35,8 @@ import lecho.lib.hellocharts.view.PieChartView;
 public class ChartsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ChartsActivity";
+
+    private ImageButton btnBack;
 
     //数字数据展示
     private TextView tvDoneCountOfWeek;
@@ -89,6 +92,8 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
+        btnBack = findViewById(R.id.btnBackOfCharts);
+
         tvDoneCountOfWeek = findViewById(R.id.tvCountOfDoneForWeek);
         tvUndoCountOfWeek = findViewById(R.id.tvCountOfUndoForWeek);
         tvConcentratedTimeOfWeek = findViewById(R.id.tvConcentratedTimeOfWeek);
@@ -105,10 +110,12 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
         btnShowWeekDataOfLineChart = findViewById(R.id.btnLineChartWeekly);
         btnShowMonthDataOfLineChart = findViewById(R.id.btnLineChartMonthly);
 
+        btnBack.setOnClickListener(this);
         btnShowWeekDataOfPieChart.setOnClickListener(this);
         btnShowMonthDataOfPieChart.setOnClickListener(this);
         btnShowWeekDataOfLineChart.setOnClickListener(this);
         btnShowMonthDataOfLineChart.setOnClickListener(this);
+
 
         btnShowWeekDataOfPieChart.setTextColor(getResources().getColor(R.color.color_select_chart));
         btnShowWeekDataOfLineChart.setTextColor(getResources().getColor(R.color.color_select_chart));
@@ -182,7 +189,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
                     .getInstance()
                     .getDurationOfDate(weekDate.get(Calendar.YEAR), weekDate.get(Calendar.MONTH), weekDate.get(Calendar.DAY_OF_MONTH));
 
-            scoresOfWeek[i-1] = duration != 0 ? duration : 0;
+            scoresOfWeek[i-1] = duration != 0 ? duration/60 : 0;  //以分钟为单位展示专注时长数据
         }
 
         //初始化月数据
@@ -193,7 +200,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
             long duration = ConcentrationDataDao
                     .getInstance()
                     .getDurationOfDate(currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), i);
-            scoresOfMonth[i-1] = duration != 0 ? duration : 0;
+            scoresOfMonth[i-1] = duration != 0 ? duration/60 : 0;  //以分钟为单位展示专注时长数据
         }
 
     }
