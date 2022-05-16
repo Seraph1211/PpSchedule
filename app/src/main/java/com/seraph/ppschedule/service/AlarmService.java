@@ -77,14 +77,17 @@ public class AlarmService extends Service {
     }
 
     public void remindAllScheduleOfToady() {
+        String remindTime = "08:00";
         Calendar calendar = Calendar.getInstance();
         //获取今天八点的绝对时间
-        long time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), "08:00"),
+        long time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH), remindTime),
                 "yyyy-MM-dd HH:mm");
 
+        Log.d(TAG, "remindAllScheduleOfToady: time=" + (calendar.getTimeInMillis() - time));
         if(calendar.getTimeInMillis() <= time) {
             //如果当前绝对时间小于等于当天八点的绝对时间
             List<Schedule> res = getUndoListOfDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            Log.d(TAG, "remindAllScheduleOfToady: res=" + res.toString());
             if(res.size() != 0) {
                 showNotification(AlarmService.this, res);
             }
@@ -92,7 +95,7 @@ public class AlarmService extends Service {
 
         //设置定时任务，明天8点唤醒Service提醒用户
         //获取第二天早上八点的绝对时间
-        time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH), "08:00"),
+        time = DateUtils.date2TimeStamp(String.format("%s-%s-%s %s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH) + 1, remindTime),
                 "yyyy-MM-dd HH:mm");
 
         long t = calendar.getTimeInMillis() - time;
@@ -107,6 +110,7 @@ public class AlarmService extends Service {
      * @param list
      */
     public void showNotification(Context context, List<Schedule> list) {
+        Log.d(TAG, "showNotification: ");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(context, MainActivity.class);

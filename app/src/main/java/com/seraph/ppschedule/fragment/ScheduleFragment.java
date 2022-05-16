@@ -242,7 +242,6 @@ public class ScheduleFragment extends BaseFragment
          Calendar calendar = Calendar.getInstance();
          calendar.set(mCurrentSelectYear, mCurrentSelectMonth, mCurrentSelectDay);
 
-         //Schedule schedule = new Schedule(content, "", calendar, false, mTime);
          Schedule schedule = new Schedule();
          schedule.setTitle(content);
          schedule.setDesc("");
