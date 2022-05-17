@@ -27,7 +27,7 @@
             android:layout_width="150dp"
             android:layout_height="54dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/bg_corner_white"
+            android:background="@drawable/bg_btn_tomato_clock"
             android:gravity="center"
             android:text="开 始"
             android:textColor="@android:color/black"

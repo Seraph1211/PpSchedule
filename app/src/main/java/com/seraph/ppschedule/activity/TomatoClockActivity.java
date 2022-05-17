@@ -64,7 +64,7 @@ public class TomatoClockActivity extends AppCompatActivity implements TomatoView
                 if(!clockView.isStarted() && clockView.getCountdownTime() != 0){
                     startClock();
                 }else if (!clockView.isStarted() && clockView.getCountdownTime() == 0){
-                    Toast.makeText(TomatoClockActivity.this, "请先设置学习时间", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TomatoClockActivity.this, "请先设置专注时长", Toast.LENGTH_SHORT).show();
                 } else if(clockView.isStarted() && clockView.getCountdownTime() != 0){
                     cancelClock();
                 }
@@ -92,6 +92,7 @@ public class TomatoClockActivity extends AppCompatActivity implements TomatoView
      * 开始计时
      */
     private void startClock() {
+        Toast.makeText(this, "计时开始", Toast.LENGTH_SHORT).show();
         duration = clockView.getCountdownTime();
         clockView.start();
         btnClock.setText("结 束");

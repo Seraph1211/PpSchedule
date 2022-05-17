@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_btn_clock_start.xml" value="0.143" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_btn_tomato_clock.xml" value="0.143" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_btn_tomato_clock_normal.xml" value="0.143" />
+        <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_btn_tomato_clock_press.xml" value="0.143" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_circle_gray.xml" value="0.264" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_corner_white.xml" value="0.143" />
         <entry key="..\:/MyGitHouse/PpSchedule/app/src/main/res/drawable/bg_event_item.xml" value="0.139" />
