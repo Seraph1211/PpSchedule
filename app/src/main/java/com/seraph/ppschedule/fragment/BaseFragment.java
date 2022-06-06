@@ -6,6 +6,7 @@ import android.util.Log;
 import com.seraph.ppschedule.bean.Schedule;
 
 public class BaseFragment extends Fragment {
+    private static final String TAG = "BaseFrag";
 
     /**
      * 添加schedule
@@ -34,7 +35,9 @@ public class BaseFragment extends Fragment {
      * 1、从DB中读取schedule数据
      * 2、调用adapter的notify方法刷新视图
      */
-    public void resetScheduleList(){}
+    public void resetScheduleList(){
+        Log.d(TAG, "resetScheduleList: ");
+    }
 
     @Override
     public void onStart() {

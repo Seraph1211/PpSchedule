@@ -96,7 +96,7 @@ public class ScheduleDetailActivity extends AppCompatActivity implements SelectD
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ScheduleDetailActivity.this, "back button was clicked !", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ScheduleDetailActivity.this, "back button was clicked !", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

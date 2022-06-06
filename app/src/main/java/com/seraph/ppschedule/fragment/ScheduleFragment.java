@@ -125,12 +125,18 @@ public class ScheduleFragment extends BaseFragment
    @Override
    public void resetScheduleList() {
       loadScheduleListFromDB();
-      mScheduleAdapter.updateAllScheduleData(scheduleList);
+
+      if(mScheduleAdapter != null) {
+         mScheduleAdapter.updateAllScheduleData(scheduleList);
+      }
+
    }
 
    @Override
    public void resetVisibilityOfNoTaskView() {
-      rLNoTask.setVisibility(scheduleList.size()==0 ? View.VISIBLE : View.GONE);
+      if(rLNoTask != null) {
+         rLNoTask.setVisibility(scheduleList.size()==0 ? View.VISIBLE : View.GONE);
+      }
    }
 
    /**
@@ -196,12 +202,10 @@ public class ScheduleFragment extends BaseFragment
    public void onClick(View v) {
       switch (v.getId()) {
          case R.id.ibMainClock:
-            Toast.makeText(mActivity, "Clock", Toast.LENGTH_SHORT).show();
             showSelectDateDialog();
             break;
 
          case R.id.ibMainOk:
-            Toast.makeText(mActivity, "Ok", Toast.LENGTH_SHORT).show();
             insertSchedule();
             break;
 
@@ -220,7 +224,7 @@ public class ScheduleFragment extends BaseFragment
     */
    @Override
    public void onClickDate(int year, int month, int day) {
-      Toast.makeText(mActivity, "date: " +year + "/" + month + "/" + day, Toast.LENGTH_SHORT).show();
+      //Toast.makeText(mActivity, "date: " +year + "/" + month + "/" + day, Toast.LENGTH_SHORT).show();
       setCurrentSelectDate(year, month, day);
       resetScheduleList();
    }

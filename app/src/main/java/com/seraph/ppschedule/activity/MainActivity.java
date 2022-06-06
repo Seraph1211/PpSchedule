@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.ContactsContract;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,7 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seraph.ppschedule.R;
+import com.seraph.ppschedule.bean.ConcentrationData;
 import com.seraph.ppschedule.bean.Schedule;
+import com.seraph.ppschedule.dao.ConcentrationDataDao;
 import com.seraph.ppschedule.dao.ScheduleDao;
 import com.seraph.ppschedule.fragment.EventSetFragment;
 import com.seraph.ppschedule.fragment.ScheduleFragment;
@@ -168,27 +171,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.llMenuSchedule:
                 gotoScheduleFragment();
-                Toast.makeText(this, "Schedule option is clicked !", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.llMenuEvent:
                 gotoEventSetFragment();
-                Toast.makeText(this, "Event option is clicked !", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.llMenuTomato:
-                Toast.makeText(this, "Tomato option is clicked !", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, TomatoClockActivity.class));
                 break;
 
             case R.id.llMenuCharts:
-                Toast.makeText(this, "Charts option is clicked !", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, ChartsActivity.class));
                 break;
 
             case R.id.tvMainTitle:
                 Log.d(TAG, "show Database:" + ScheduleDao.getInstance().findAllSchedule().toString());
+                //makeSomeDirtyData();
         }
+    }
+
+    private void makeSomeDirtyData() {
+        ConcentrationData data1 = new ConcentrationData();
+        data1.setYear(2022);
+        data1.setMonth(5);
+        data1.setDay(1);
+        data1.setDuration(2400);
+        ConcentrationDataDao.getInstance().addDurationData(data1);
+
+        ConcentrationData data2 = new ConcentrationData();
+        data2.setYear(2022);
+        data2.setMonth(5);
+        data2.setDay(3);
+        data2.setDuration(2700);
+        ConcentrationDataDao.getInstance().addDurationData(data2);
+
+        ConcentrationData data3 = new ConcentrationData();
+        data1.setYear(2022);
+        data1.setMonth(5);
+        data1.setDay(4);
+        data1.setDuration(1800);
+        ConcentrationDataDao.getInstance().addDurationData(data1);
+
+        ConcentrationData data4 = new ConcentrationData();
+        data4.setYear(2022);
+        data4.setMonth(5);
+        data4.setDay(5);
+        data4.setDuration(2460);
+        ConcentrationDataDao.getInstance().addDurationData(data4);
+
+        ConcentrationData data5 = new ConcentrationData();
+        data5.setYear(2022);
+        data5.setMonth(5);
+        data5.setDay(6);
+        data5.setDuration(7320);
+        ConcentrationDataDao.getInstance().addDurationData(data5);
     }
 
     /**
@@ -247,6 +284,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llTitleDate.setVisibility(View.VISIBLE);
         tvMainTitle.setVisibility(View.GONE);
         mDrawer.closeDrawer(Gravity.START);
+
+        mScheduleFragment.resetScheduleList();
     }
 
     /**
@@ -268,6 +307,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvMainTitle.setVisibility(View.VISIBLE);
         tvMainTitle.setText("收集箱");
         mDrawer.closeDrawer(Gravity.START);
+
+        mEventSetFragment.resetScheduleList();
     }
 
     @Override
